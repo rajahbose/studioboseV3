@@ -646,7 +646,27 @@ body::after{content:'';position:fixed;inset:0;z-index:1;background-image:url("da
     }
     .hex-tile-inner.selected img {
       opacity: 1;
-      filter: brightness(1.2);
+      filter: brightness(0.6);
+    }
+    .hex-front-title {
+       position: relative;
+       z-index: 2;
+       color: #fff;
+       font-family: var(--font-sans);
+       font-size: 13px;
+       font-weight: 500;
+       letter-spacing: -0.01em;
+       text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+       background: rgba(0,0,0,0.4);
+       padding: 4px 8px;
+       border-radius: 4px;
+       backdrop-filter: blur(4px);
+       pointer-events: none;
+       opacity: 0;
+       transition: opacity 0.3s;
+    }
+    .hex-tile-inner.selected .hex-front-title {
+       opacity: 1;
     }
     
     .hex-face {
@@ -2001,7 +2021,7 @@ function stopExploreScroll() {
         '<div class="hex-tile-inner">' +
           '<div class="hex-face hex-front">' +
              imgHtml +
-            
+            '<div class="hex-front-title">' + data.title + '</div>' +
           '</div>' +
         '</div>';
       
@@ -2048,14 +2068,32 @@ function stopExploreScroll() {
     }
 
     var lastMid = null;
+    var vx = 0;
+    var vy = 0;
+    var animFrame = null;
+    var isDraggingMap = false;
+
+    function momentumLoop() {
+      tx += vx;
+      ty += vy;
+      vx *= 0.95;
+      vy *= 0.95;
+      applyTransform();
+      if (Math.abs(vx) > 0.1 || Math.abs(vy) > 0.1) {
+         animFrame = requestAnimationFrame(momentumLoop);
+      }
+    }
 
     hexContainer.addEventListener('pointerdown', function(e) {
+      if (animFrame) cancelAnimationFrame(animFrame);
       pointers.set(e.pointerId, e);
       lastMid = getMidpoint(getPointersArray());
       if (pointers.size === 2) {
         var pts = getPointersArray();
         lastDist = getDistance(pts[0], pts[1]);
       }
+      vx = 0; vy = 0;
+      isDraggingMap = false;
     });
 
     hexContainer.addEventListener('pointermove', function(e) {
@@ -2065,15 +2103,15 @@ function stopExploreScroll() {
       
       var mid = getMidpoint(pts);
       // Panning
-      if (lastMid) {
+      if (lastMid && pts.length === 1) {
         var dx = mid.x - lastMid.x;
         var dy = mid.y - lastMid.y;
-        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-           // Flag child elements that dragging is occurring
-           document.querySelectorAll('.hex-tile').forEach(t=>t.dispatchEvent(new Event('pointerdown'))); // dirty hack for isDragging = true; actually better to do:
-        }
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) isDraggingMap = true;
         tx += dx;
         ty += dy;
+        // Track instantaneous velocity for momentum
+        vx = dx;
+        vy = dy;
       }
       lastMid = mid;
 
@@ -2092,8 +2130,15 @@ function stopExploreScroll() {
     function cleanPointer(e) {
       pointers.delete(e.pointerId);
       if (pointers.size < 2) lastDist = 0;
-      if (pointers.size > 0) lastMid = getMidpoint(getPointersArray());
-      else lastMid = null;
+      if (pointers.size > 0) {
+         lastMid = getMidpoint(getPointersArray());
+      } else {
+         lastMid = null;
+         // Trigger momentum if we were dragging recently
+         if (Math.abs(vx) > 1 || Math.abs(vy) > 1) {
+           animFrame = requestAnimationFrame(momentumLoop);
+         }
+      }
     }
 
     hexContainer.addEventListener('pointerup', cleanPointer);
@@ -2111,7 +2156,7 @@ function stopExploreScroll() {
           el.setAttribute('data-has-up', 'true');
           el.addEventListener('pointerup', function(e) {
             e.stopPropagation();
-            if (el._isDragging) return;
+            if (el._isDragging || isDraggingMap) { el._isDragging = false; return; }
             var inner = el.querySelector('.hex-tile-inner');
             if (inner.classList.contains('selected')) {
                showPage('projects');
