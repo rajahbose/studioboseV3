@@ -628,37 +628,48 @@ body::after{content:'';position:fixed;inset:0;z-index:1;background-image:url("da
       will-change: transform;
     }
     
-    .hex-tile.flipped .hex-tile-inner {
-      transform: rotateY(180deg);
+        #mainNav.page-home {
+      display: none !important;
+    }
+    ul.nav-links {
+      display: flex;
+    }
+    ul.nav-links li:not(:nth-child(2)):not(:nth-child(5)):not(:nth-child(6)) {
+      display: none !important; 
+    }
+
+    .hex-tile-inner.selected {
+      border: 3px solid var(--accent);
+      transform: scale(1.05);
+    }
+    .hex-tile-inner.selected img {
+      opacity: 1;
+      filter: brightness(1.2);
     }
     
     .hex-face {
       position: absolute;
       inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 16px;
-      background: var(--bg-3);
-    }
-    
-    .hex-front {
       background: #111;
     }
+    
     .hex-front img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.85;
-      transition: opacity 0.3s;
+      opacity: 0.5;
+      transition: opacity 0.3s, filter 0.3s;
       pointer-events: none;
     }
+    
     .hex-front-title {
        position: relative;
        z-index: 2;
@@ -668,37 +679,18 @@ body::after{content:'';position:fixed;inset:0;z-index:1;background-image:url("da
        font-weight: 500;
        letter-spacing: -0.01em;
        text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+       background: rgba(0,0,0,0.4);
+       padding: 4px 8px;
+       border-radius: 4px;
+       backdrop-filter: blur(4px);
        pointer-events: none;
+       transition: opacity 0.3s;
     }
     
-    .hex-back {
-      transform: rotateY(180deg);
-      background: var(--bg-2);
-      border: 1px solid var(--border);
+    .hex-tile-inner.selected .hex-front-title {
+       opacity: 0;
     }
-    .hex-back-cat {
-       font-family: var(--font-mono);
-       font-size: 9px;
-       letter-spacing: 0.16em;
-       color: var(--accent);
-       text-transform: uppercase;
-       margin-bottom: 6px;
-       pointer-events: none;
-    }
-    .hex-back-title {
-       font-family: var(--font-sans);
-       font-size: 14px;
-       font-weight: 400;
-       line-height: 1.2;
-       color: var(--text);
-       pointer-events: none;
-    }
-    .hex-back-arrow {
-       margin-top: 14px;
-       font-size: 18px;
-       color: var(--accent);
-       pointer-events: none;
-    }
+    
     .hex-zoom-hint {
        position: absolute;
        bottom: 24px;
@@ -740,7 +732,7 @@ body::after{content:'';position:fixed;inset:0;z-index:1;background-image:url("da
 
 
 <!-- NAV -->
-<nav id="mainNav">
+<nav id="mainNav" class="page-home">
   <a class="nav-logo" onclick="showPage('home')">
     <img class="nav-logo-img" src="images/logo.png" alt="studio|BOSE">
     <span class="nav-logo-wordmark">studio<span class="pipe">|</span>BOSE</span>
@@ -765,7 +757,10 @@ function showPage(p){
   var nav=document.getElementById('nav-'+p);
   if(nav) nav.classList.add('active');
   var mainNav=document.getElementById('mainNav');
-  if(mainNav){mainNav.classList.toggle('page-projects', p==='projects');}
+  if(mainNav){
+    mainNav.classList.toggle('page-projects', p==='projects');
+    mainNav.classList.toggle('page-home', p==='home');
+  }
   window.scrollTo(0,0);
   if (history.replaceState && p !== 'projects') { history.replaceState(null, null, '#' + p); }
   if(typeof buildFeatured==='function'&&document.getElementById('featuredGrid')&&document.getElementById('featuredGrid').innerHTML==='') buildFeatured();
@@ -1979,12 +1974,26 @@ function stopExploreScroll() {
     var positions = [{x: 0, y: 0}];
     var px = 0; var py = 0;
 
-    for (var ring = 1; positions.length < projects.length; ring++) {
+        // Flatten & randomize project imagery for infinity mode 
+    var allImages = [];
+    projects.forEach(function(p) {
+       if (p.imgs) {
+           p.imgs.forEach(function(img) {
+               allImages.push({ id: p.id, title: p.title, category: p.category, img: img });
+           });
+       }
+    });
+
+    // Seeded random approach isn't strictly necessary, Math.random is fine.
+    allImages.sort(function() { return 0.5 - Math.random() });
+
+    // Build coordinate map up to length of allImages
+    for (var ring = 1; positions.length < allImages.length; ring++) {
       px = dirs[4][0] * ring;
       py = dirs[4][1] * ring;
       for (var dir = 0; dir < 6; dir++) {
         for (var step = 0; step < ring; step++) {
-          if (positions.length >= projects.length) break;
+          if (positions.length >= allImages.length) break;
           positions.push({ x: px, y: py });
           px += dirs[dir][0];
           py += dirs[dir][1];
@@ -1992,46 +2001,25 @@ function stopExploreScroll() {
       }
     }
 
-    projects.forEach(function(p, i) {
+    allImages.forEach(function(data, i) {
+      if (!positions[i]) return;
       var pos = positions[i];
       var el = document.createElement('div');
       el.className = 'hex-tile';
+      el.setAttribute('data-pid', data.id);
       el.style.left = pos.x + 'px';
       el.style.top = pos.y + 'px';
       
-      var imgSrc = p.imgs && p.imgs.length > 0 ? p.imgs[0] : '';
-      var imgHtml = imgSrc ? '<img src="' + imgSrc + '">' : '<div style="width:100%;height:100%;background:var(--bg-4)"></div>';
+      var imgHtml = '<img src="' + data.img + '">';
       
       el.innerHTML =
         '<div class="hex-tile-inner">' +
           '<div class="hex-face hex-front">' +
              imgHtml +
-            '<div class="hex-front-title">' + p.title + '</div>' +
-          '</div>' +
-          '<div class="hex-face hex-back">' +
-            '<div class="hex-back-cat">' + p.category + '</div>' +
-            '<div class="hex-back-title">' + p.title + '</div>' +
-            '<div class="hex-back-arrow">→</div>' +
+            '<div class="hex-front-title">' + data.title + '</div>' +
           '</div>' +
         '</div>';
       
-      // Tap logic
-      var isDragging = false;
-      el.addEventListener('pointerdown', function() { isDragging = false; });
-      el.addEventListener('pointerup', function(e) {
-        if (isDragging) return;
-        if (el.classList.contains('flipped')) {
-           // Navigate
-           showPage('projects');
-           setTimeout(function() { selectProject(p.id); }, 50);
-        } else {
-           // Flip
-           document.querySelectorAll('.hex-tile').forEach(function(t) {
-             if (t !== el) t.classList.remove('flipped');
-           });
-           el.classList.add('flipped');
-        }
-      });
       surface.appendChild(el);
     });
 
@@ -2135,19 +2123,19 @@ function stopExploreScroll() {
        el.addEventListener('pointerdown', function() { el._isDragging = false; });
        var origUp = el.getAttribute('data-has-up');
        if (!origUp) {
-          el.setAttribute('data-pid', p.id);
           el.setAttribute('data-has-up', 'true');
           el.addEventListener('pointerup', function(e) {
             e.stopPropagation();
             if (el._isDragging) return;
-            if (el.classList.contains('flipped')) {
+            var inner = el.querySelector('.hex-tile-inner');
+            if (inner.classList.contains('selected')) {
                showPage('projects');
                setTimeout(function() { selectProject(el.getAttribute('data-pid')); }, 50);
             } else {
-               document.querySelectorAll('.hex-tile').forEach(function(t) {
-                 if (t !== el) t.classList.remove('flipped');
+               document.querySelectorAll('.hex-tile-inner').forEach(function(t) {
+                 t.classList.remove('selected');
                });
-               el.classList.add('flipped');
+               inner.classList.add('selected');
             }
           });
        }
