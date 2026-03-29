@@ -1895,7 +1895,7 @@ function startExploreScroll() {
   var grid = document.getElementById('page-explore');
   if (!grid) return;
   if (window.matchMedia('(max-width: 768px)').matches) return; // disabled on mobile
-  var speed = 0.8; // 2x desktop speed
+  var speed = 0.4; // desktop speed
   function step() {
     grid.scrollTop += speed;
     // If we've reached the bottom, loop back to top
