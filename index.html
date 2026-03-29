@@ -1373,7 +1373,9 @@ function selectProject(id) {
   var next = pc.querySelector('#proj-' + id);
   if (!next || current === next) return;
 
-  if (history.replaceState) { history.replaceState(null, null, '#' + id); }
+  if (history.replaceState && document.getElementById('page-projects').classList.contains('active')) { 
+    history.replaceState(null, null, '#' + id); 
+  }
   // Scroll to top immediately on click
   scrollProjectsToTop();
 
