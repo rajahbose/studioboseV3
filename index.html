@@ -526,11 +526,25 @@ body::after{content:'';position:fixed;inset:0;z-index:1;background-image:url("da
 .gallery-item{overflow:hidden;cursor:crosshair;aspect-ratio:1}
 .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s ease;transform-origin:50% 50%}
 
-.gallery-lightbox{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.94);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.gallery-lightbox.open{opacity:1;pointer-events:all}
-.gallery-lightbox img{max-width:90vw;max-height:90vh;object-fit:contain}
-.gallery-lightbox-close{position:absolute;top:24px;right:32px;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;color:var(--text-muted);cursor:pointer;background:none;border:none;text-transform:uppercase}
-.gallery-lightbox-close:hover{color:var(--text)}
+/* PROJECT LIGHTBOX */
+#project-lightbox {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+#project-lightbox.active { opacity: 1; pointer-events: all; }
+.lb-img { max-width: 85vw; max-height: 85vh; object-fit: contain; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.lb-btn { position: absolute; background: none; border: none; color: var(--text-muted); cursor: pointer; transition: color 0.2s; z-index: 2; padding: 20px; }
+.lb-btn:hover { color: var(--text); }
+.lb-prev { left: 40px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 40px; top: 50%; transform: translateY(-50%); }
+.lb-arrow { display: block; width: 14px; height: 14px; border-bottom: 2px solid currentColor; border-right: 2px solid currentColor; }
+.lb-prev .lb-arrow { transform: rotate(135deg); }
+.lb-next .lb-arrow { transform: rotate(-45deg); }
+.lb-close { top: 32px; right: 40px; font-family: var(--font-ui); font-size: 24px; font-weight: 300; line-height: 1; }
+@media (max-width: 768px) { #project-lightbox { display: none !important; } }
 
 
 /* ═══ USEFUL LINKS PAGE ═══ */
@@ -2296,6 +2310,67 @@ function stopExploreScroll() {
   
   // Make sure it runs at least once if needed
   setTimeout(initHexHome, 500);
+})();
+</script>
+
+<div id="project-lightbox">
+  <button class="lb-btn lb-close" id="lb-close">✕</button>
+  <button class="lb-btn lb-prev" id="lb-prev"><span class="lb-arrow"></span></button>
+  <img class="lb-img" id="lb-img" src="" alt="Project Image Fullscreen">
+  <button class="lb-btn lb-next" id="lb-next"><span class="lb-arrow"></span></button>
+</div>
+
+<script>
+(function() {
+  var lb = document.getElementById('project-lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbClose = document.getElementById('lb-close');
+  var lbPrev = document.getElementById('lb-prev');
+  var lbNext = document.getElementById('lb-next');
+  var currentImages = [];
+  var currentIndex = 0;
+
+  document.getElementById('projectsContent').addEventListener('click', function(e) {
+    if (window.innerWidth <= 768) return;
+    if (e.target.tagName === 'IMG') {
+      var detail = e.target.closest('.project-detail');
+      if (!detail) return;
+      var imgs = Array.from(detail.querySelectorAll('img'));
+      currentImages = imgs.map(function(img) { return img.src; });
+      currentIndex = currentImages.indexOf(e.target.src);
+      if (currentIndex > -1) {
+        showLightboxImage(currentIndex);
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  });
+
+  function showLightboxImage(idx) {
+    if (idx < 0) idx = currentImages.length - 1;
+    if (idx >= currentImages.length) idx = 0;
+    currentIndex = idx;
+    lbImg.src = currentImages[currentIndex];
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', function() { showLightboxImage(currentIndex - 1); });
+  lbNext.addEventListener('click', function() { showLightboxImage(currentIndex + 1); });
+  lb.addEventListener('click', function(e) {
+    if (e.target === lb) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showLightboxImage(currentIndex - 1);
+    if (e.key === 'ArrowRight') showLightboxImage(currentIndex + 1);
+  });
 })();
 </script>
 
