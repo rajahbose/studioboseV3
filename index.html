@@ -1308,10 +1308,18 @@ function buildContent() {
           '<div class="info-item"><div class="info-label">Type</div><div class="info-value">' + (p.type || '—') + '</div></div>' +
           '<div class="info-item"><div class="info-label">Year</div><div class="info-value">' + p.year + '</div></div>' +
           '<div class="info-item"><div class="info-label">Concepts</div><div class="info-value">' + (p.concepts || '—') + '</div></div>' +
-
         '</div>' +
-        '<div class="project-gallery">' +
-          '<div class="gallery-grid">' + galleryImgs + '</div>' +
+        '<div class="project-body">' +
+          (p.desc1 || p.desc2 ? 
+            '<div class="project-overview" style="margin-bottom: 48px;">' +
+              '<div class="project-overview-text">' +
+                '<h3>Project Overview</h3>' +
+                '<p>' + (p.desc1 || '') + '</p><p>' + (p.desc2 || '') + '</p>' +
+              '</div>' +
+            '</div>' : '') +
+          '<div class="project-gallery">' +
+            '<div class="gallery-grid">' + galleryImgs + '</div>' +
+          '</div>' +
         '</div>';
       container.appendChild(detail);
       return;
