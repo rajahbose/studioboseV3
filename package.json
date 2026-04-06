@@ -1,5 +1,11 @@
 {
+  "scripts": {
+    "admin": "node server.js"
+  },
   "devDependencies": {
     "sharp": "^0.34.5"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
