@@ -58,14 +58,23 @@
     
     <div v-if="loading" style="padding: 3rem; text-align: center; color: var(--text-muted)">Loading projects...</div>
     <div v-else>
-      <div class="selector-bar">
-        <label style="margin:0; white-space:nowrap; color: var(--text);">Manage Project:</label>
-        <select v-model="selectedProjectIdx" style="flex:1; font-size:1.05rem;">
-          <option v-for="(p, i) in projects" :value="i" :key="p.id">
-            {{ p.title || 'Untitled' }} ({{ p.category }})
-          </option>
-        </select>
-        <button @click="addProject" style="white-space:nowrap; padding: 0.7rem 1.2rem;">+ Add New Entry</button>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; background: var(--bg-2); padding: 1.5rem 2rem; border-radius: 6px; border: 1px solid var(--border);">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem;">
+          <div v-for="cat in ['residential', 'commercial', 'creative']" :key="cat">
+            <h4 style="margin: 0 0 0.75rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted);">{{ cat }}</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+              <button 
+                v-for="(p, i) in projects.filter(proj => proj.category === cat)" 
+                :key="p.id"
+                @click="selectedProjectIdx = projects.indexOf(p)"
+                :style="{ background: projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--bg-3)', color: projects.indexOf(p) === selectedProjectIdx ? '#000' : 'var(--text)', border: '1px solid ' + (projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--border)'), padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontWeight: projects.indexOf(p) === selectedProjectIdx ? '600' : '400', transition: 'all 0.2s', fontSize: '0.9rem' }"
+              >
+                {{ p.title || 'Untitled' }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <button @click="addProject" style="white-space:nowrap; padding: 0.7rem 1.2rem; margin-left: 2rem;">+ Add New Entry</button>
       </div>
 
       <div v-if="projects.length > 0 && projects[selectedProjectIdx]" class="project-card">
