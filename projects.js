@@ -573,5 +573,32 @@ const projects = [
     ],
     "desc1": "",
     "desc2": ""
+  },
+  {
+    "id": "residential-006",
+    "number": "006",
+    "title": "Adobe Abode",
+    "subtitle": "—",
+    "category": "residential",
+    "year": "2026",
+    "location": "—",
+    "area": "—",
+    "client": "—",
+    "status": "—",
+    "materials": "—",
+    "colors": [
+      "ph-d",
+      "ph-e",
+      "ph-f"
+    ],
+    "imgs": [
+      "images/projects/adobe-abode/adobe-abode-01.jpg",
+      "images/projects/adobe-abode/adobe-abode-02.jpg",
+      "images/projects/adobe-abode/adobe-abode-03.jpg",
+      "images/projects/adobe-abode/adobe-abode-04.jpg",
+      "images/projects/adobe-abode/adobe-abode-05.jpg"
+    ],
+    "desc1": "—",
+    "desc2": ""
   }
 ];

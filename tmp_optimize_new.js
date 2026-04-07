@@ -30,8 +30,7 @@ async function processDir(dirName, prefix) {
 }
 
 async function main() {
-  await processDir('by-hand', 'by-hand');
-  await processDir('coastal-cabins-kitchen', 'coastal-cabins-kitchen');
+  await processDir('adobe-abode', 'adobe-abode');
 }
 
 main().catch(console.error);
