@@ -141,8 +141,10 @@
         <div>
           <label>Images Array (URLs starting with images/projects/...)</label>
           <div class="img-list">
-            <div v-for="(img, imgIdx) in projects[selectedProjectIdx].imgs" :key="imgIdx" class="img-item">
-              <input v-model="projects[selectedProjectIdx].imgs[imgIdx]" placeholder="images/projects/folder/image.jpg" />
+            <div v-for="(img, imgIdx) in projects[selectedProjectIdx].imgs" :key="imgIdx" class="img-item" style="align-items: center; background: var(--bg-3); padding: 0.5rem; border-radius: 4px;">
+              <img v-if="img" :src="'../' + img" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);" />
+              <div v-else style="width: 80px; height: 80px; background: var(--bg-4); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-muted); text-align: center;">Empty</div>
+              <input v-model="projects[selectedProjectIdx].imgs[imgIdx]" placeholder="images/projects/folder/image.jpg" style="flex: 1;" />
               <button class="btn-danger" @click="projects[selectedProjectIdx].imgs.splice(imgIdx, 1)">X</button>
             </div>
             <button style="margin-top:0.5rem; width: 160px; font-size: 0.85rem; padding: 0.4rem;" @click="projects[selectedProjectIdx].imgs = projects[selectedProjectIdx].imgs || []; projects[selectedProjectIdx].imgs.push('')">+ Add Image Url</button>
