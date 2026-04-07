@@ -59,7 +59,7 @@ const projects = [
       "images/projects/yey-salon/yey-salon-08.jpg"
     ],
     "materials": "Wood Frame & Trusses, TPO Roof, Aluminum Storefront, Stucco",
-    "desc1": "coming soon…",
+    "desc1": "This 6,000 SF cold shell and tenant improvement project is centered around a beautiful new hair salon for the client's business to evolve into. ",
     "desc2": "",
     "statement": ""
   },
@@ -192,7 +192,7 @@ const projects = [
     "id": "residential-003",
     "number": "003",
     "title": "Mountain Casita",
-    "subtitle": "Whimsical small ADU dwelling nestled into the hill and forest",
+    "subtitle": "Whimsical casita nestled into the hill",
     "category": "residential",
     "year": "2026",
     "location": "Santa Fe, NM",
@@ -344,7 +344,7 @@ const projects = [
       "images/projects/burning-man-dinosaur-head/burning-man-dinosaur-head-09.jpg"
     ],
     "materials": "",
-    "desc1": "",
+    "desc1": "This project originated as a shade structure for a Burning Man camp of artists and engineers. Our team worked to determine a geometry that would be stable, as well as a fabrication system that would allow the whole thing to be broken down - all the while avoiding complex and costly joints. ",
     "desc2": ""
   },
   {
@@ -468,8 +468,8 @@ const projects = [
       "images/projects/wild-domestic/wild-domestic-31.jpg"
     ],
     "materials": "-",
-    "desc1": "",
-    "desc2": ""
+    "desc1": "This design studio, lead by Andrew Kudless, was predicated on ideas around, and the study of, animals living in close proximity with humans. Not only that, but how those animals themselves were used to architecting their own habitats. ",
+    "desc2": "This project focuses on the Cliff Swallow, who similar to New Mexican's building adobe, are familiar with mud structures, aggregated on one another, relating closely to their rocky cliff surroundings. How can humans learn from these birds, and they way they live? What do they teach us about architecture and design? "
   },
   {
     "id": "creative-007",
