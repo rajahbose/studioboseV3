@@ -592,11 +592,11 @@ const projects = [
       "ph-f"
     ],
     "imgs": [
+      "images/projects/adobe-abode/adobe-abode-05.jpg",
       "images/projects/adobe-abode/adobe-abode-01.jpg",
       "images/projects/adobe-abode/adobe-abode-02.jpg",
       "images/projects/adobe-abode/adobe-abode-03.jpg",
-      "images/projects/adobe-abode/adobe-abode-04.jpg",
-      "images/projects/adobe-abode/adobe-abode-05.jpg"
+      "images/projects/adobe-abode/adobe-abode-04.jpg"
     ],
     "desc1": "—",
     "desc2": ""
