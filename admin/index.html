@@ -74,13 +74,13 @@
             </div>
           </div>
         </div>
-        <button @click="addProject" style="white-space:nowrap; padding: 0.7rem 1.2rem; margin-left: 2rem;">+ Add New Entry</button>
+        <!-- <button @click="addProject" style="white-space:nowrap; padding: 0.7rem 1.2rem; margin-left: 2rem;">+ Add New Entry</button> -->
       </div>
 
       <div v-if="projects.length > 0 && projects[selectedProjectIdx]" class="project-card">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 0.5rem;">
           <h2 style="margin: 0; font-size: 1.75rem; font-weight: 300; letter-spacing: -0.02em;">{{ projects[selectedProjectIdx].title || 'Untitled Project' }}</h2>
-          <button class="btn-danger" @click="removeProject(selectedProjectIdx)">Delete Project</button>
+          <!-- <button class="btn-danger" @click="removeProject(selectedProjectIdx)">Delete Project</button> -->
         </div>
         
         <div class="grid-2">
