@@ -238,11 +238,11 @@ footer{border-top:1px solid var(--border);padding:56px 56px 36px;display:grid;gr
 .spec-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
 .spec-key{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
 .spec-val{font-size:12px;font-weight:500}
-.project-image-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:56px}
-.project-image-grid .ph-wrap{overflow:hidden}
-.project-image-grid .ph-wrap:first-child{grid-column:1/3}
-.project-image-grid .ph-wrap:first-child .ph{aspect-ratio:16/7;height:auto}
-.project-image-grid .ph-wrap:not(:first-child) .ph{aspect-ratio:4/3;height:auto}
+.project-image-grid{display:grid;grid-template-columns:repeat(2, 1fr);grid-auto-flow:dense;gap:2px;margin-bottom:56px}
+.project-image-grid .ph-wrap{position:relative;overflow:hidden;background:var(--bg-3)}
+.project-image-grid .ph-wrap.is-landscape{grid-column:span 2;aspect-ratio:16/9}
+.project-image-grid .ph-wrap.is-portrait{grid-column:span 1;aspect-ratio:3/4}
+.project-image-grid .ph-wrap img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
 
 /* ═══ STUDIO (ABOUT) ═══ */
 #page-about{padding-top:68px;position:relative}
@@ -1359,30 +1359,8 @@ function buildContent() {
           if (!p.imgs || p.imgs.length <= 1) return '<div class="project-image-grid"></div>';
           var remaining = p.imgs.slice(1);
           var html = '<div class="project-image-grid">';
-          // Pattern: full, half, half, full, half, half, full...
-          // row position within each 3-image cycle: 0=full, 1=half, 2=half
-          var cycle = 0;
-          var i = 0;
-          while (i < remaining.length) {
-            var pos = cycle % 3;
-            if (pos === 0) {
-              // Full-width row
-              html += '<div class="ph-wrap" style="grid-column:1/3"><img src="' + remaining[i] + '" alt="studio|BOSE - ' + p.title + ' - Modern Architecture Image ' + (i+2) + '" style="width:100%;aspect-ratio:16/9;object-fit:cover"></div>';
-              i++;
-            } else if (pos === 1) {
-              // First half of pair
-              html += '<div class="ph-wrap"><img src="' + remaining[i] + '" alt="studio|BOSE - ' + p.title + ' - Modern Architecture Image ' + (i+2) + '" style="width:100%;aspect-ratio:4/3;object-fit:cover"></div>';
-              i++;
-              // Second half of pair (next image, or empty)
-              if (i < remaining.length) {
-                html += '<div class="ph-wrap"><img src="' + remaining[i] + '" alt="studio|BOSE - ' + p.title + ' - Modern Architecture Image ' + (i+2) + '" style="width:100%;aspect-ratio:4/3;object-fit:cover"></div>';
-                i++;
-                cycle++; // consumed 2 halves, advance cycle by 1 more
-              } else {
-                html += '<div class="ph-wrap" style="background:var(--bg-3)"></div>';
-              }
-            }
-            cycle++;
+          for (var i = 0; i < remaining.length; i++) {
+            html += '<div class="ph-wrap"><img src="' + remaining[i] + '" alt="studio|BOSE - ' + p.title + ' - Modern Architecture Image ' + (i+2) + '" onload="this.parentElement.classList.add(this.naturalWidth >= this.naturalHeight ? \'is-landscape\' : \'is-portrait\'); this.parentElement.classList.add(\'loaded\');"></div>';
           }
           html += '</div>';
           return html;
