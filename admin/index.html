@@ -43,6 +43,10 @@
     .img-item { display: flex; gap: 0.5rem; }
     
     .selector-bar { display: flex; gap: 1.5rem; align-items: center; background: var(--bg-2); padding: 1.25rem 2rem; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid var(--border); }
+    .tabs-container { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .tab-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1rem; padding: 0.75rem 1.5rem; border-bottom: 2px solid transparent; border-radius: 0; margin-bottom: -1px; cursor: pointer; transition: color 0.2s; }
+    .tab-btn:hover { background: transparent; color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
   </style>
 </head>
 <body>
@@ -58,7 +62,13 @@
     
     <div v-if="loading" style="padding: 3rem; text-align: center; color: var(--text-muted)">Loading projects...</div>
     <div v-else>
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; background: var(--bg-2); padding: 1.5rem 2rem; border-radius: 6px; border: 1px solid var(--border);">
+      <div class="tabs-container">
+        <button :class="['tab-btn', currentTab === 'editor' ? 'active' : '']" @click="currentTab = 'editor'">Project Editor</button>
+        <button :class="['tab-btn', currentTab === 'assets' ? 'active' : '']" @click="currentTab = 'assets'">Asset Viewer</button>
+      </div>
+
+      <div v-show="currentTab === 'editor'">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; background: var(--bg-2); padding: 1.5rem 2rem; border-radius: 6px; border: 1px solid var(--border);">
         <div style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem;">
           <div v-for="cat in ['residential', 'commercial', 'creative']" :key="cat">
             <h4 style="margin: 0 0 0.75rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted);">{{ cat }}</h4>
@@ -163,6 +173,22 @@
       <div v-else style="text-align: center; padding: 4rem; color: var(--text-muted); background: var(--bg-2); border-radius: 6px; border: 1px dashed var(--border);">
         No projects exist. Click "+ Add New Entry" above to create one.
       </div>
+      </div>
+
+      <div v-show="currentTab === 'assets'">
+        <div v-for="p in projects" :key="p.id" class="project-card" style="margin-bottom: 2rem;">
+          <h2 style="margin: 0 0 1.5rem 0; font-size: 1.5rem; font-weight: 300; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">{{ p.title || 'Untitled Project' }}</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;">
+            <div v-for="(img, idx) in p.imgs" :key="'img'+idx" style="aspect-ratio: 1; background: var(--bg-3); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
+              <img v-if="img" :src="'../' + img" style="width: 100%; height: 100%; object-fit: cover;" />
+              <div v-else style="font-size: 0.8rem; color: var(--text-muted);">Empty Tile</div>
+              <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); padding: 0.35rem 0.5rem; font-size: 0.7rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; color: #e2ddd6;" v-if="img">{{ img.split('/').pop() }}</div>
+            </div>
+            <div v-if="!p.imgs || p.imgs.length === 0" style="color: var(--text-muted); font-size: 0.9rem; grid-column: 1 / -1; padding: 1rem 0;">No images for this project.</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -175,6 +201,7 @@
         const loading = ref(true);
         const projectsData = ref([]);
         const selectedProjectIdx = ref(0);
+        const currentTab = ref('editor');
 
         onMounted(() => {
           if (typeof projects !== 'undefined') {
@@ -236,6 +263,7 @@
         return {
           projects: projectsData,
           selectedProjectIdx,
+          currentTab,
           loading,
           saveProjects,
           addProject,
