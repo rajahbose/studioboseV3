@@ -250,7 +250,7 @@ const projects = [
     "title": "AI-Powered Mood Boards",
     "subtitle": "Material palettes designed by us and rendered through our proprietary image-making application, based on Gemini",
     "category": "creative",
-    "year": "2025",
+    "year": "Ongoing ",
     "location": "studio|BOSE",
     "area": "—",
     "client": "—",
@@ -278,7 +278,7 @@ const projects = [
     ],
     "materials": "",
     "desc1": "We use AI-generated imagery as a rapid design tool — composing material palettes, testing color relationships, and exploring spatial moods before a single physical sample is ordered.",
-    "desc2": ""
+    "desc2": "At the same time, AI can be used to help imagine scenarios that take time to model, but can be quickly conjured for the purposes of conversation, inspiration, and so on. "
   },
   {
     "id": "residential-004",
@@ -578,14 +578,14 @@ const projects = [
     "id": "residential-006",
     "number": "006",
     "title": "Adobe Abode",
-    "subtitle": "—",
+    "subtitle": "Historic District Sanctuary ",
     "category": "residential",
     "year": "2026",
     "location": "—",
-    "area": "—",
+    "area": "+/- 2,400 SF",
     "client": "—",
-    "status": "—",
-    "materials": "—",
+    "status": "Under Construction ",
+    "materials": "Adobe, Heavy Timber Trusses, Clad Wood Windows, Brick Veneer Floors",
     "colors": [
       "ph-d",
       "ph-e",
@@ -598,7 +598,7 @@ const projects = [
       "images/projects/adobe-abode/adobe-abode-03.jpg",
       "images/projects/adobe-abode/adobe-abode-04.jpg"
     ],
-    "desc1": "—",
-    "desc2": ""
+    "desc1": "This narrow urban infill project pushes the limit of what can be done on a tight lot. The floor plan jogs about to accommodate fire clearances between two neighbors. The pitched metal roof is constrained vertically by the Historic Districts height ordinances. ",
+    "desc2": "Designed in collaboration with Andrew Lyons Design. Estimated completion: Fall 2026. "
   }
 ];
