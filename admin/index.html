@@ -70,24 +70,11 @@
       <div v-show="currentTab === 'editor'">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; background: var(--bg-2); padding: 1.5rem 2rem; border-radius: 6px; border: 1px solid var(--border);">
         <div style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem;">
-          <div v-for="cat in ['residential', 'commercial', 'creative']" :key="cat">
-            <h4 style="margin: 0 0 0.75rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted);">{{ cat }}</h4>
+          <div v-for="cat in ['residential', 'commercial', 'creative', 'small-scale']" :key="cat">
+            <h4 :style="{ margin: '0 0 0.75rem 0', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: cat === 'small-scale' ? 'var(--accent)' : 'var(--text-muted)' }">{{ cat }}</h4>
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
               <button 
-                v-for="(p, i) in projects.filter(proj => proj.category === cat && proj.template !== 'small-scale')" 
-                :key="p.id"
-                @click="selectedProjectIdx = projects.indexOf(p)"
-                :style="{ background: projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--bg-3)', color: projects.indexOf(p) === selectedProjectIdx ? '#000' : 'var(--text)', border: '1px solid ' + (projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--border)'), padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontWeight: projects.indexOf(p) === selectedProjectIdx ? '600' : '400', transition: 'all 0.2s', fontSize: '0.9rem' }"
-              >
-                {{ p.title || 'Untitled' }}
-              </button>
-            </div>
-          </div>
-          <div>
-            <h4 style="margin: 0 0 0.75rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent);">Small Scale</h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-              <button 
-                v-for="(p, i) in projects.filter(proj => proj.template === 'small-scale')" 
+                v-for="(p, i) in projects.filter(proj => proj.category === cat)" 
                 :key="p.id"
                 @click="selectedProjectIdx = projects.indexOf(p)"
                 :style="{ background: projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--bg-3)', color: projects.indexOf(p) === selectedProjectIdx ? '#000' : 'var(--text)', border: '1px solid ' + (projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--border)'), padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontWeight: projects.indexOf(p) === selectedProjectIdx ? '600' : '400', transition: 'all 0.2s', fontSize: '0.9rem' }"
@@ -104,8 +91,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 0.5rem;">
           <div>
             <h2 style="margin: 0 0 0.4rem 0; font-size: 1.75rem; font-weight: 300; letter-spacing: -0.02em;">{{ projects[selectedProjectIdx].title || 'Untitled Project' }}</h2>
-            <span :style="{ fontSize: '10px', letterSpacing: '.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '3px', background: projects[selectedProjectIdx].template === 'small-scale' ? 'rgba(200,169,110,0.15)' : 'rgba(255,255,255,0.05)', color: projects[selectedProjectIdx].template === 'small-scale' ? 'var(--accent)' : 'var(--text-muted)', border: '1px solid ' + (projects[selectedProjectIdx].template === 'small-scale' ? 'rgba(200,169,110,0.3)' : 'var(--border)') }">
-              {{ projects[selectedProjectIdx].template === 'small-scale' ? 'Small Scale Template' : 'Standard Template' }}
+            <span :style="{ fontSize: '10px', letterSpacing: '.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '3px', background: projects[selectedProjectIdx].category === 'small-scale' ? 'rgba(200,169,110,0.15)' : 'rgba(255,255,255,0.05)', color: projects[selectedProjectIdx].category === 'small-scale' ? 'var(--accent)' : 'var(--text-muted)', border: '1px solid ' + (projects[selectedProjectIdx].category === 'small-scale' ? 'rgba(200,169,110,0.3)' : 'var(--border)') }">
+              {{ projects[selectedProjectIdx].category === 'small-scale' ? 'Small Scale' : 'Standard Template' }}
             </span>
           </div>
           <!-- <button class="btn-danger" @click="removeProject(selectedProjectIdx)">Delete Project</button> -->
@@ -129,14 +116,12 @@
               <option value="commercial">Commercial</option>
               <option value="residential">Residential</option>
               <option value="creative">Creative</option>
+              <option value="small-scale">Small Scale</option>
             </select>
           </div>
           <div>
-            <label>Template</label>
-            <select v-model="projects[selectedProjectIdx].template">
-              <option value="">Standard</option>
-              <option value="small-scale">Small Scale</option>
-            </select>
+            <label>Year</label>
+            <input v-model="projects[selectedProjectIdx].year" />
           </div>
         </div>
 
@@ -157,7 +142,7 @@
         </div>
 
         <!-- Standard-only fields -->
-        <template v-if="!projects[selectedProjectIdx].template || projects[selectedProjectIdx].template !== 'small-scale'">
+        <template v-if="projects[selectedProjectIdx].category !== 'small-scale'">
           <div class="grid-2">
             <div>
               <label>Client</label>
@@ -180,7 +165,7 @@
         </template>
 
         <!-- Description -->
-        <div v-if="projects[selectedProjectIdx].template === 'small-scale'">
+        <div v-if="projects[selectedProjectIdx].category === 'small-scale'">
           <label>Description</label>
           <textarea v-model="projects[selectedProjectIdx].desc1" rows="6"></textarea>
         </div>

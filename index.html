@@ -921,6 +921,7 @@ buildContent();
                 <button class="filter-btn" onclick="filterProjects('commercial','type',this)">Comm</button>
         <button class="filter-btn" onclick="filterProjects('residential','type',this)">Resi</button>
         <button class="filter-btn" onclick="filterProjects('creative','type',this)">Crea</button>
+        <button class="filter-btn" onclick="filterProjects('small-scale','type',this)">Small</button>
       </div>
       <div class="sidebar-projects-list" id="sidebarList"></div>
       <div class="sidebar-filters materials-filter-row" id="materialsFilters"></div>
@@ -1319,7 +1320,7 @@ function buildContent() {
       return;
     }
     // ── SMALL SCALE TEMPLATE ─────────────────────────────────────────────────
-    if (p.template === 'small-scale') {
+    if (p.category === 'small-scale') {
       var galleryImgsSmall = (p.imgs || []).slice(1).map(function(src, i) {
         return '<div class="gallery-item"><img src="' + src + '" alt="studio|BOSE - ' + p.title + ' - Image ' + (i+2) + '"></div>';
       }).join('');
