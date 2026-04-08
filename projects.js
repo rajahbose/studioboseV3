@@ -600,5 +600,36 @@ const projects = [
     ],
     "desc1": "This narrow urban infill project pushes the limit of what can be done on a tight lot. The floor plan jogs about to accommodate fire clearances between two neighbors. The pitched metal roof is constrained vertically by the Historic Districts height ordinances. ",
     "desc2": "Designed in collaboration with Andrew Lyons Design. Estimated completion: Fall 2026. "
+  },
+  {
+    "id": "commercial-005",
+    "number": "005",
+    "title": "Rocket Ramps",
+    "subtitle": "Custom accessibility ramp design & fabrication",
+    "category": "commercial",
+    "template": "small-scale",
+    "year": "2024",
+    "location": "Santa Fe, NM",
+    "materials": "Steel, Powder Coat",
+    "colors": [
+      "ph-a",
+      "ph-b",
+      "ph-c"
+    ],
+    "desc1": "Rocket Ramps designs and fabricates custom accessibility ramps that are as considered as the buildings they serve. Each ramp is site-measured, detailed for code compliance, and finished to complement the existing architecture.",
+    "imgs": [
+      "images/projects/rocket-ramps/rocket-ramps-01.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-02.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-03.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-04.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-05.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-06.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-07.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-08.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-09.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-10.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-11.jpg",
+      "images/projects/rocket-ramps/rocket-ramps-12.jpg"
+    ]
   }
 ];

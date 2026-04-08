@@ -1318,6 +1318,40 @@ function buildContent() {
       container.appendChild(detail);
       return;
     }
+    // ── SMALL SCALE TEMPLATE ─────────────────────────────────────────────────
+    if (p.template === 'small-scale') {
+      var galleryImgsSmall = (p.imgs || []).slice(1).map(function(src, i) {
+        return '<div class="gallery-item"><img src="' + src + '" alt="studio|BOSE - ' + p.title + ' - Image ' + (i+2) + '"></div>';
+      }).join('');
+      detail.innerHTML =
+        '<div class="project-hero">' +
+          (p.imgs && p.imgs[0] ? '<img src="' + p.imgs[0] + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : phDiv((p.colors||['ph-a'])[0], p.title + ' — Hero')) +
+          '<div class="project-hero-overlay">' +
+            '<div class="project-category">' + cat + ' · ' + p.year + '</div>' +
+            '<h1 class="project-title">' + p.title + '</h1>' +
+            (p.subtitle ? '<div class="project-subtitle">' + p.subtitle + '</div>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="project-info-bar">' +
+          '<div class="info-item"><div class="info-label">Year</div><div class="info-value">' + (p.year || '—') + '</div></div>' +
+          '<div class="info-item"><div class="info-label">Location</div><div class="info-value">' + (p.location || '—') + '</div></div>' +
+          '<div class="info-item info-item--mobile-hide"><div class="info-label">Materials</div><div class="info-value">' + (p.materials || '—') + '</div></div>' +
+        '</div>' +
+        '<div class="project-body">' +
+          (p.desc1 ?
+            '<div class="project-overview" style="grid-template-columns:1fr;margin-bottom:48px;">' +
+              '<div class="project-overview-text" style="max-width:720px;">' +
+                '<h3>About</h3>' +
+                '<p>' + p.desc1 + '</p>' +
+              '</div>' +
+            '</div>' : '') +
+          (galleryImgsSmall ?
+            '<div class="project-gallery"><div class="gallery-grid">' + galleryImgsSmall + '</div></div>' : '') +
+        '</div>';
+      container.appendChild(detail);
+      return;
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     detail.innerHTML =
       '<div class="project-hero">' +
         (p.imgs ? '<img src="' + p.imgs[0] + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : phDiv(p.colors[0], p.title + ' — Hero')) +
