@@ -9,45 +9,43 @@
        DESIGN TOKENS
     ══════════════════════════════════════════════ */
     :root {
-      /* Depth layers — each step is a visually distinct surface */
-      --layer-0: #070b11;   /* page canvas */
-      --layer-1: #0d1420;   /* cards, panels */
-      --layer-2: #131d2e;   /* raised surfaces, table even rows */
-      --layer-3: #192336;   /* hover state */
-      --layer-4: #0a1018;   /* table head, banner bg */
+      /* Depth layers — warm charcoal, no blue cast */
+      --layer-0: #100f0e;   /* page canvas */
+      --layer-1: #1a1917;   /* cards, panels */
+      --layer-2: #222019;   /* raised surfaces, table even rows */
+      --layer-3: #2b2824;   /* hover state */
+      --layer-4: #0c0b0a;   /* table head, banner bg */
 
-      /* Border system */
-      --border-faint:   #141e2f;   /* barely-there dividers */
-      --border-soft:    #1c2a3f;   /* standard card border */
-      --border-medium:  #253348;   /* hover / emphasis */
-      --border-strong:  #2f4060;   /* focused / selected */
+      /* Border system — warm grey */
+      --border-faint:   #231f1c;   /* barely-there dividers */
+      --border-soft:    #2f2c28;   /* standard card border */
+      --border-medium:  #3e3a35;   /* hover / emphasis */
+      --border-strong:  #524d47;   /* focused / selected */
 
-      /* Typography — 5-level hierarchy */
-      --t1: #eef3ff;   /* page title, key values → near-white, max contrast */
-      --t2: #b8ccec;   /* card titles, table data, body prose */
-      --t3: #6e8aac;   /* row labels, card zone names (secondary) */
-      --t4: #3d526e;   /* table col headers, section divider labels */
-      --t5: #263345;   /* decorative text, faintest captions */
+      /* Typography — 5-level warm hierarchy */
+      --t1: #f2ece4;   /* page title, key values → warm ivory, max contrast */
+      --t2: #c5bbb0;   /* card titles, table data, body prose */
+      --t3: #80746a;   /* row labels, card zone names (secondary) */
+      --t4: #4c4540;   /* table col headers, section divider labels */
+      --t5: #302c28;   /* decorative text, faintest captions */
 
-      /* Accent palette */
-      --accent:        #4f83d9;   /* primary interactive blue */
-      --accent-subtle: rgba(79,131,217,0.12);
-      --accent-border: rgba(79,131,217,0.28);
+      /* Accent palette — warm copper */
+      --accent:        #b87830;   /* copper/amber — primary interactive */
+      --accent-subtle: rgba(184,120,48,0.11);
+      --accent-border: rgba(184,120,48,0.26);
 
-      /* Semantic status colors — muted, jewel-tone */
-      --green:  #2ea84f;
-      --amber:  #c07a1a;
-      --red:    #c04040;
-      --blue:   #3a74c0;
-      --purple: #7a5ac0;
-      --teal:   #1f9e8a;
+      /* Semantic status colors — earthy, desaturated */
+      --green:  #5a8850;
+      --amber:  #a07028;
+      --red:    #904040;
+      --teal:   #3a7870;
 
-      /* Badge variables */
-      --b-green-bg: #071a0d; --b-green-fg: #3dd68c; --b-green-bd: #0e3a1f;
-      --b-none-bg:  #0d1420; --b-none-fg:  #3a506a; --b-none-bd:  #1c2a3f;
-      --b-amber-bg: #180e00; --b-amber-fg: #cc8f2a; --b-amber-bd: #3d2800;
-      --b-red-bg:   #180707; --b-red-fg:   #d96060; --b-red-bd:   #3d1212;
-      --b-blue-bg:  #07101e; --b-blue-fg:  #5090d9; --b-blue-bd:  #16305a;
+      /* Badge variables — warm palette, no pure blues */
+      --b-green-bg: #0e180a; --b-green-fg: #7eba68; --b-green-bd: #1f3a16;
+      --b-none-bg:  #1a1917; --b-none-fg:  #4a4440; --b-none-bd:  #2f2c28;
+      --b-amber-bg: #1c1200; --b-amber-fg: #c09a42; --b-amber-bd: #402e00;
+      --b-red-bg:   #1c1010; --b-red-fg:   #c07272; --b-red-bd:   #402222;
+      --b-blue-bg:  #0e1a16; --b-blue-fg:  #62a890; --b-blue-bd:  #1e3c30;
     }
 
     /* ══════════════════════════════════════════════
@@ -184,13 +182,13 @@
     ══════════════════════════════════════════════ */
     .section-group { margin-bottom: 38px; }
     .section-title {
-      font-size: 0.63rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--t5);
+      color: var(--t3);
       padding-bottom: 9px;
-      border-bottom: 1px solid var(--border-faint);
+      border-bottom: 1px solid var(--border-soft);
       margin-bottom: 14px;
     }
 
@@ -247,30 +245,30 @@
     }
     .card-body { padding: 14px 15px; }
 
-    /* Card themes: deep gradient + thin coloured top border */
+    /* Card themes: warm earthy gradients + muted accent stripe */
     .theme-residential {
-      background: linear-gradient(160deg, #0b2e1a 0%, #0a1f13 100%);
-      border-top: 2px solid #1e7a40;
+      background: linear-gradient(160deg, #172112 0%, #101808 100%);
+      border-top: 2px solid #4e7e30;
     }
     .theme-commercial {
-      background: linear-gradient(160deg, #2e1508 0%, #1e0e05 100%);
-      border-top: 2px solid #a05a18;
+      background: linear-gradient(160deg, #221508 0%, #191005 100%);
+      border-top: 2px solid #906028;
     }
     .theme-industrial {
-      background: linear-gradient(160deg, #181e2a 0%, #11161f 100%);
-      border-top: 2px solid #3a4f6e;
+      background: linear-gradient(160deg, #1e1b18 0%, #151310 100%);
+      border-top: 2px solid #5e564e;
     }
     .theme-special {
-      background: linear-gradient(160deg, #1f1240 0%, #150d2c 100%);
-      border-top: 2px solid #6040b0;
+      background: linear-gradient(160deg, #1e1418 0%, #160f13 100%);
+      border-top: 2px solid #7a4870;
     }
     .theme-overlay {
-      background: linear-gradient(160deg, #091e3c 0%, #061428 100%);
-      border-top: 2px solid #2e60b0;
+      background: linear-gradient(160deg, #12181e 0%, #0e1318 100%);
+      border-top: 2px solid #4a6880;
     }
     .theme-environ {
-      background: linear-gradient(160deg, #082820 0%, #051a14 100%);
-      border-top: 2px solid #16806a;
+      background: linear-gradient(160deg, #101e18 0%, #0c1510 100%);
+      border-top: 2px solid #2e806a;
     }
 
     /* ══════════════════════════════════════════════
@@ -393,7 +391,7 @@
       font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 0.06em;
-      color: #7aaeed;
+      color: #c09a52;
       margin-right: 5px;
       text-transform: uppercase;
     }
@@ -434,7 +432,7 @@
       width: 20px; height: 20px;
       background: var(--accent-subtle);
       border: 1px solid var(--accent-border);
-      color: #7aaeed;
+      color: #c09a52;
       border-radius: 50%;
       display: grid; place-items: center;
       font-size: 0.6rem;
@@ -448,9 +446,9 @@
     .callout {
       display: flex;
       gap: 12px;
-      background: #130f00;
-      border: 1px solid #2e2400;
-      border-left: 3px solid #a07020;
+      background: #1c1400;
+      border: 1px solid #302200;
+      border-left: 3px solid #a07828;
       border-radius: 7px;
       padding: 12px 16px;
       margin-bottom: 14px;
@@ -459,15 +457,15 @@
     .callout-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
     /* HIERARCHY LEVEL 3 — callout text */
     .callout-text { color: var(--t3); line-height: 1.65; }
-    .callout-text strong { color: #c8a040; font-weight: 600; }
+    .callout-text strong { color: #c4a050; font-weight: 600; }
 
     .callout.info {
-      background: #060f1e;
-      border-color: #0e2040;
+      background: #101a16;
+      border-color: #1e3028;
       border-left-color: var(--accent);
     }
     .callout.info .callout-text { color: var(--t3); }
-    .callout.info .callout-text strong { color: #7aaeed; }
+    .callout.info .callout-text strong { color: #c09a52; }
 
     /* ══════════════════════════════════════════════
        RESPONSIVE
@@ -534,6 +532,8 @@
                 <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
                 <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
                 <tr><td>Rear</td><td><span class="badge-val">15 ft</span></td></tr>
+                <tr><td>Height max (residential)</td><td><span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height max (nonresidential)</td><td><span class="badge-val special">38 ft</span></td></tr>
                 <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
               </tbody>
             </table>
@@ -552,6 +552,8 @@
                 <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
                 <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
                 <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height max (residential)</td><td><span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height max (nonresidential)</td><td><span class="badge-val special">38 ft</span></td></tr>
                 <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
               </tbody>
             </table>
@@ -571,6 +573,8 @@
                 <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
                 <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
                 <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height max (residential)</td><td><span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height max (nonresidential)</td><td><span class="badge-val special">38 ft</span></td></tr>
                 <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
               </tbody>
             </table>
@@ -590,6 +594,7 @@
                 <tr><td>Front</td><td><span class="badge-val">7 ft</span> — or <span class="badge-val none">0 ft</span> if yard wall 6–8 ft high is built between building and street</td></tr>
                 <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
                 <tr><td>Rear</td><td><span class="badge-val">15 ft</span> — or <span class="badge-val">5 ft</span> if wall 6–8 ft high is built</td></tr>
+                <tr><td>Height max</td><td><span class="badge-val special">26 ft</span> — upper-story gross floor area ≤ 50% of ground floor area</td></tr>
                 <tr><td>Height (stories above ground)</td><td>No portion of any story above ground level shall be closer than <span class="badge-val special">15 ft</span> from the property line</td></tr>
               </tbody>
             </table>
@@ -608,6 +613,8 @@
                 <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
                 <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
                 <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height max — R-10, R-12</td><td><span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height max — R-21, R-29</td><td><span class="badge-val special">26 ft</span> by right &nbsp;|&nbsp; <span class="badge-val large">38 ft</span> with development plan or conditional use approval</td></tr>
                 <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
               </tbody>
             </table>
@@ -627,7 +634,9 @@
                 <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
                 <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
                 <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
-                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">24 ft</span></td></tr>
+                <tr><td>Height max (residential)</td><td><span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height max (nonresidential)</td><td><span class="badge-val special">38 ft</span></td></tr>
+                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">24 ft</span> <em>(note: 24 ft, not 26 ft)</em></td></tr>
               </tbody>
             </table>
           </div>
