@@ -1633,16 +1633,34 @@ function goToProject(id) {
 })();
 
 var _exploreScrollRAF = null;
+var _exploreResumeTimer = null;
+var _exploreUserScrolling = false;
+var _exploreListenersAttached = false;
+
+function _onExploreUserScroll() {
+  _exploreUserScrolling = true;
+  stopExploreScroll();
+  clearTimeout(_exploreResumeTimer);
+  _exploreResumeTimer = setTimeout(function() {
+    _exploreUserScrolling = false;
+    startExploreScroll();
+  }, 2500);
+}
 
 function startExploreScroll() {
   stopExploreScroll();
   var grid = document.getElementById('page-explore');
   if (!grid) return;
-  if (window.matchMedia('(max-width: 768px)').matches) return; // disabled on mobile
-  var speed = 0.4; // desktop speed
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+  if (!_exploreListenersAttached) {
+    grid.addEventListener('wheel', _onExploreUserScroll, { passive: true });
+    grid.addEventListener('touchmove', _onExploreUserScroll, { passive: true });
+    _exploreListenersAttached = true;
+  }
+  if (_exploreUserScrolling) return;
+  var speed = 0.4;
   function step() {
     grid.scrollTop += speed;
-    // If we've reached the bottom, loop back to top
     if (grid.scrollTop + grid.clientHeight >= grid.scrollHeight - 2) {
       grid.scrollTop = 0;
     }

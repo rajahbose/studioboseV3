@@ -74,7 +74,20 @@
             <h4 style="margin: 0 0 0.75rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted);">{{ cat }}</h4>
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
               <button 
-                v-for="(p, i) in projects.filter(proj => proj.category === cat)" 
+                v-for="(p, i) in projects.filter(proj => proj.category === cat && proj.template !== 'small-scale')" 
+                :key="p.id"
+                @click="selectedProjectIdx = projects.indexOf(p)"
+                :style="{ background: projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--bg-3)', color: projects.indexOf(p) === selectedProjectIdx ? '#000' : 'var(--text)', border: '1px solid ' + (projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--border)'), padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontWeight: projects.indexOf(p) === selectedProjectIdx ? '600' : '400', transition: 'all 0.2s', fontSize: '0.9rem' }"
+              >
+                {{ p.title || 'Untitled' }}
+              </button>
+            </div>
+          </div>
+          <div>
+            <h4 style="margin: 0 0 0.75rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent);">Small Scale</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+              <button 
+                v-for="(p, i) in projects.filter(proj => proj.template === 'small-scale')" 
                 :key="p.id"
                 @click="selectedProjectIdx = projects.indexOf(p)"
                 :style="{ background: projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--bg-3)', color: projects.indexOf(p) === selectedProjectIdx ? '#000' : 'var(--text)', border: '1px solid ' + (projects.indexOf(p) === selectedProjectIdx ? 'var(--accent)' : 'var(--border)'), padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontWeight: projects.indexOf(p) === selectedProjectIdx ? '600' : '400', transition: 'all 0.2s', fontSize: '0.9rem' }"
