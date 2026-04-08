@@ -605,17 +605,17 @@ const projects = [
     "id": "commercial-005",
     "number": "005",
     "title": "Rocket Ramps",
-    "subtitle": "Custom accessibility ramp design & fabrication",
+    "subtitle": "Bespoke mountain bike jumps & features ",
     "category": "small-scale",
-    "year": "2024",
-    "location": "Santa Fe, NM",
-    "materials": "Steel, Powder Coat",
+    "year": "Ongoing",
+    "location": "Multiple",
+    "materials": "Steel, Wood, Core Ten, HDPE",
     "colors": [
       "ph-a",
       "ph-b",
       "ph-c"
     ],
-    "desc1": "Rocket Ramps designs and fabricates custom accessibility ramps that are as considered as the buildings they serve. Each ramp is site-measured, detailed for code compliance, and finished to complement the existing architecture.",
+    "desc1": "studioBOSE has been collaborating with Rockets Ramps for over five years to create beautiful, durable, and moon-launching features for parks, municipalities, and private clients. ",
     "imgs": [
       "images/projects/rocket-ramps/rocket-ramps-01.jpg",
       "images/projects/rocket-ramps/rocket-ramps-02.jpg",
