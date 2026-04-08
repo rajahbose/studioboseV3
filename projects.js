@@ -207,7 +207,9 @@ const projects = [
     "imgs": [
       "images/projects/mountain-casita/mountain-casita-01.png",
       "images/projects/mountain-casita/mountain-casita-02.png",
-      "images/projects/mountain-casita/mountain-casita-03.png"
+      "images/projects/mountain-casita/mountain-casita-03.png",
+      "images/projects/mountain-casita/mountain-casita-04.jpg",
+      "images/projects/mountain-casita/mountain-casita-05.jpg"
     ],
     "materials": "Panelized Prefab Steel Stud System",
     "desc1": "This casita is an exercise in completely moldproof and fire-resistant construction, based on an innovative panelized prefab steel stud system.",
@@ -569,7 +571,10 @@ const projects = [
       "images/projects/meadowlark/meadowlark-06.jpg",
       "images/projects/meadowlark/meadowlark-07.jpg",
       "images/projects/meadowlark/meadowlark-08.jpg",
-      "images/projects/meadowlark/meadowlark-09.jpg"
+      "images/projects/meadowlark/meadowlark-09.jpg",
+      "images/projects/meadowlark/meadowlark-10.jpg",
+      "images/projects/meadowlark/meadowlark-11.jpg",
+      "images/projects/meadowlark/meadowlark-12.jpg"
     ],
     "desc1": "",
     "desc2": ""
