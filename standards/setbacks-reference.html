@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Santa Fe Setback Requirements — Code Reference Tool</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; scroll-behavior: smooth; }
+
+    /* ── Dark Mode Color System ── */
+    :root {
+      --bg:          #0d1117;
+      --bg-surface:  #161b24;
+      --bg-raised:   #1d2433;
+      --bg-hover:    #222a3a;
+      --border:      #2a3348;
+      --border-soft: #1f2738;
+      --text:        #dce4f0;
+      --text-muted:  #7b8ba8;
+      --text-dim:    #4d5e7a;
+      --accent:      #4f8ef7;
+
+      /* badge colors */
+      --badge-green-bg:  #0a1f12; --badge-green-text: #4ade80; --badge-green-bd: #166534;
+      --badge-none-bg:   #161b24; --badge-none-text:  #556078; --badge-none-bd:  #2a3348;
+      --badge-amber-bg:  #1f1500; --badge-amber-text: #fbbf24; --badge-amber-bd: #78350f;
+      --badge-red-bg:    #1f0a0a; --badge-red-text:   #f87171; --badge-red-bd:   #7f1d1d;
+      --badge-blue-bg:   #0a1525; --badge-blue-text:  #60a5fa; --badge-blue-bd:  #1e3a5f;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #111827 0%, #0d1117 100%);
+      border-bottom: 1px solid var(--border);
+      color: #fff;
+      padding: 28px 32px 0;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+    .header-icon {
+      width: 44px; height: 44px;
+      background: rgba(79,142,247,0.15);
+      border: 1px solid rgba(79,142,247,0.3);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 1.55rem; font-weight: 700; letter-spacing: -0.02em; color: #f0f6ff; }
+    header p.subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 22px; margin-left: 60px; }
+
+    /* ── Tab Nav ── */
+    .tab-nav {
+      display: flex;
+      gap: 3px;
+      margin-top: 4px;
+    }
+    .tab-btn {
+      padding: 11px 26px 13px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      border-bottom: 3px solid transparent;
+    }
+    .tab-btn:hover { background: rgba(79,142,247,0.1); color: #a8c4f0; }
+    .tab-btn.active {
+      background: var(--bg);
+      color: #f0f6ff;
+      border-bottom: 3px solid var(--accent);
+    }
+    .tab-btn .jurisdiction-label { display: block; font-size: 0.7rem; font-weight: 400; opacity: 0.6; margin-top: 2px; }
+    .tab-btn.active .jurisdiction-label { opacity: 0.5; }
+
+    /* ── Main ── */
+    main { max-width: 1140px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* ── Tab Panels ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Intro Banner ── */
+    .intro-banner {
+      background: linear-gradient(135deg, #111e30 0%, #0e1927 100%);
+      border: 1px solid #1e3050;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+    .intro-banner h2 { font-size: 1.05rem; color: #a8c8f8; margin-bottom: 5px; font-weight: 700; }
+    .intro-banner p { font-size: 0.82rem; color: #6a8bae; line-height: 1.6; }
+
+    /* ── Section Headers ── */
+    .section-group { margin-bottom: 36px; }
+    .section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-soft);
+      margin-bottom: 14px;
+    }
+
+    /* ── Cards ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: #3a4d6a; }
+    .card-header {
+      padding: 11px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-header .zone-code {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      background: rgba(0,0,0,0.25);
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      color: rgba(255,255,255,0.85);
+    }
+    .card-header .zone-name { font-size: 0.88rem; font-weight: 600; color: rgba(255,255,255,0.92); }
+    .card-body { padding: 14px 15px; }
+
+    /* card header themes — deep saturated with dark overlay */
+    .theme-residential { background: linear-gradient(135deg, #0e3d22, #0a2918); }
+    .theme-commercial  { background: linear-gradient(135deg, #4a2008, #321405); }
+    .theme-industrial  { background: linear-gradient(135deg, #252a35, #1a1e28); }
+    .theme-special     { background: linear-gradient(135deg, #2e1f52, #1e1438); }
+    .theme-overlay     { background: linear-gradient(135deg, #0b2d50, #071e38); }
+    .theme-environ     { background: linear-gradient(135deg, #0c3325, #081f17); }
+
+    /* ── Setback Table inside card ── */
+    .setback-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.81rem;
+    }
+    .setback-table th {
+      text-align: left;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 0 0 7px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .setback-table td {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: top;
+    }
+    .setback-table td:first-child {
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 36%;
+    }
+    .setback-table td:last-child { color: var(--text); }
+    .setback-table tr:last-child td { border-bottom: none; }
+
+    /* ── Value Badges ── */
+    .badge-val {
+      display: inline-block;
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
+      border: 1px solid var(--badge-green-bd);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-weight: 700;
+      font-size: 0.81rem;
+    }
+    .badge-val.none    { background: var(--badge-none-bg);  color: var(--badge-none-text);  border-color: var(--badge-none-bd); }
+    .badge-val.large   { background: var(--badge-amber-bg); color: var(--badge-amber-text); border-color: var(--badge-amber-bd); }
+    .badge-val.xlarge  { background: var(--badge-red-bg);   color: var(--badge-red-text);   border-color: var(--badge-red-bd); }
+    .badge-val.special { background: var(--badge-blue-bg);  color: var(--badge-blue-text);  border-color: var(--badge-blue-bd); }
+
+    .note-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-soft);
+      line-height: 1.55;
+    }
+    .note-text strong { color: #8da8c8; }
+
+    /* ── Wide Table ── */
+    .wide-table-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      margin-bottom: 14px;
+    }
+    .wide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.81rem;
+    }
+    .wide-table thead tr { background: #111827; }
+    .wide-table thead th {
+      padding: 11px 14px;
+      text-align: left;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6a8bae;
+      border-bottom: 1px solid var(--border);
+    }
+    .wide-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.018); }
+    .wide-table tbody tr:hover { background: var(--bg-hover); }
+    .wide-table tbody td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: middle;
+      color: var(--text);
+    }
+    .wide-table tbody td:first-child { font-weight: 600; color: #a8bdd8; }
+    .wide-table tbody tr:last-child td { border-bottom: none; }
+    .wide-table .zone-chip {
+      display: inline-block;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.25);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #7aabf0;
+      margin-right: 4px;
+    }
+
+    /* ── Exceptions Box ── */
+    .exceptions-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .exceptions-box h3 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #a8c4f0;
+      margin-bottom: 12px;
+    }
+    .exceptions-list { list-style: none; }
+    .exceptions-list li {
+      display: flex;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: 0.81rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .exceptions-list li:last-child { border-bottom: none; }
+    .exceptions-list .ex-num {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      background: rgba(79,142,247,0.18);
+      border: 1px solid rgba(79,142,247,0.35);
+      color: #7aabf0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.62rem;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      background: #1a1500;
+      border: 1px solid #3d2f00;
+      border-left: 4px solid #c88a00;
+      border-radius: 8px;
+      padding: 13px 16px;
+      margin-bottom: 14px;
+      font-size: 0.81rem;
+    }
+    .callout-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .callout-text { color: #c8a84a; line-height: 1.6; }
+    .callout-text strong { color: #e8c870; }
+
+    .callout.info {
+      background: #0a1525;
+      border-color: #1e3a5f;
+      border-left-color: var(--accent);
+    }
+    .callout.info .callout-text { color: #6a9ccf; }
+    .callout.info .callout-text strong { color: #90bcf0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      header { padding: 20px 16px 0; }
+      main { padding: 18px 14px 50px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .tab-btn { padding: 10px 14px 12px; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-icon">📐</div>
+    <h1>Santa Fe Setback Requirements</h1>
+  </div>
+  <p class="subtitle">Code Reference Tool &nbsp;·&nbsp; City of Santa Fe (LDC Chapter 14) &nbsp;&amp;&nbsp; Santa Fe County (SLDC Dec 2016)</p>
+
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" onclick="switchTab('city', this)">
+      City of Santa Fe
+      <span class="jurisdiction-label">Land Development Code Ch. 14</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="switchTab('county', this)">
+      Santa Fe County
+      <span class="jurisdiction-label">Sustainable Land Dev. Code 2016</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="switchTab('terrain', this)">
+      SF County Terrain Management
+      <span class="jurisdiction-label">SLDC §7.17 — Slopes, Ridges &amp; High Elevation</span>
+    </button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CITY OF SANTA FE
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="panel-city" class="tab-panel active">
+
+    <div class="intro-banner">
+      <h2>City of Santa Fe — Setback Standards</h2>
+      <p>Setbacks are measured from the property line to the nearest projection of a structure. District-by-district minimums are listed below. Additional restrictions may apply via overlay districts, variance procedures, or conditions on approved plans. Source: City of Santa Fe Land Development Code (LDC), Chapter 14.</p>
+    </div>
+
+    <!-- RESIDENTIAL -->
+    <div class="section-group">
+      <div class="section-title">Residential Districts</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-residential">
+            <span class="zone-code">RR</span>
+            <span class="zone-name">Rural Residential</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span></td></tr>
+                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-residential">
+            <span class="zone-code">R-1 – R-6</span>
+            <span class="zone-name">Lower-Density Residential</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Applies to:</strong> R-1, R-2, R-3, R-4, R-5, R-6.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-residential">
+            <span class="zone-code">R-7 – R-9</span>
+            <span class="zone-name">Moderate-Density Residential</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Applies to:</strong> R-7, R-7(I), R-8, R-9.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-residential">
+            <span class="zone-code">RC-5 / RC-8</span>
+            <span class="zone-name">Residential Compound</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> — or <span class="badge-val none">0 ft</span> if yard wall 6–8 ft high is built between building and street</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span> — or <span class="badge-val">5 ft</span> if wall 6–8 ft high is built</td></tr>
+                <tr><td>Height (stories above ground)</td><td>No portion of any story above ground level shall be closer than <span class="badge-val special">15 ft</span> from the property line</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-residential">
+            <span class="zone-code">R-10 – R-29</span>
+            <span class="zone-name">High-Density Residential</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Applies to:</strong> R-10, R-12, R-21, R-29.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-residential">
+            <span class="zone-code">RAC</span>
+            <span class="zone-name">Residential Arts &amp; Crafts</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height near side/rear line</td><td>Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">24 ft</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-special">
+            <span class="zone-code">HZ</span>
+            <span class="zone-name">Hospital Zone</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span> &nbsp;<span class="badge-val large">20 ft</span> for street-facing garage/carport</td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">15 ft</span> or 20% of avg lot depth (whichever is less)</td></tr>
+                <tr><td>Height max</td><td>Las Soleras: <span class="badge-val special">70 ft</span>&nbsp; All other HZ: <span class="badge-val special">38 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">Applies to Christus St. Vincent HZ &amp; Las Soleras HZ. Lot coverage: Christus 30%; Las Soleras: 1.8:1 FAR.</p>
+          </div>
+        </div>
+
+      </div><!-- /cards-grid -->
+    </div><!-- /Residential -->
+
+    <!-- MIXED-USE & COMMERCIAL -->
+    <div class="section-group">
+      <div class="section-title">Mixed-Use &amp; Commercial Districts</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-commercial">
+            <span class="zone-code">MU</span>
+            <span class="zone-name">Mixed-Use District</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Adjacent to Residential</th><th>Not Adjacent</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">7 ft</span></td><td><span class="badge-val">7 ft</span></td></tr>
+                <tr><td>Side</td><td><span class="badge-val large">30 ft</span></td><td><span class="badge-val">5 ft</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val large">30 ft</span></td><td><span class="badge-val">10 ft</span></td></tr>
+                <tr><td>Height max</td><td colspan="2"><span class="badge-val special">38 ft</span> all structures — buildings within 70 ft of an adjoining residential property line: max <span class="badge-val special">26 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Note [2]:</strong> The 7 ft front setback applies if no street separates the MU and R districts. <strong>Note [3]:</strong> Right-of-way may count as part of setback.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-commercial">
+            <span class="zone-code">C-1 / C-2 / C-4</span>
+            <span class="zone-name">Commercial Districts</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>C-1</th><th>C-2</th><th>C-4</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">10 ft</span></td><td><span class="badge-val">15 ft</span></td><td><span class="badge-val">10 ft</span></td></tr>
+                <tr><td>Side</td><td><span class="badge-val">5 ft</span></td><td><span class="badge-val none">0 ft</span></td><td>—</td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">10 ft</span></td><td><span class="badge-val">10 ft</span></td><td><span class="badge-val">10 ft</span></td></tr>
+                <tr><td>Height max</td><td><span class="badge-val special">38 ft</span></td><td><span class="badge-val special">45 ft</span></td><td><span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height near side/rear line</td><td colspan="3">C-4: Within <strong>10 ft</strong> of line → max <span class="badge-val special">14 ft</span>&nbsp; Within <strong>15 ft</strong> → max <span class="badge-val special">26 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Rear yard abutting residential:</strong> Increases to 25 ft or 20% of lot depth (whichever is less). <strong>C-4 note:</strong> Max residential density is same as lowest-density contiguous residential district.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-special">
+            <span class="zone-code">SC-1/2/3</span>
+            <span class="zone-name">Shopping Centers</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>SC-1</th><th>SC-2</th><th>SC-3</th></tr></thead>
+              <tbody>
+                <tr><td>Front / Side / Rear</td><td colspan="3">Same as requirements of any <strong>adjoining zoning district</strong></td></tr>
+                <tr><td>Height max</td><td><span class="badge-val special">38 ft</span></td><td><span class="badge-val special">45 ft</span></td><td><span class="badge-val special">45 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">SC-1: min 5 acres; SC-2: min 10 acres; SC-3: min 40 acres.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-special">
+            <span class="zone-code">BIP</span>
+            <span class="zone-name">Business &amp; Industrial Park</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val none">None</span></td></tr>
+                <tr><td>Side</td><td><span class="badge-val none">None</span></td></tr>
+                <tr><td>Rear</td><td><span class="badge-val none">None</span></td></tr>
+                <tr><td>Height max</td><td><span class="badge-val special">38 ft</span> — within 25 ft of a residential district, no structure shall exceed <span class="badge-val special">26 ft</span></td></tr>
+                <tr><td>Height stepback (near residential)</td><td>Structures 26–38 ft within 25 ft of residential: step back <strong>2 horizontal ft</strong> per vertical ft above 26 ft</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Adjacent to residential use or zoning:</strong> No building, parking, loading, or driveway less than <strong>50 ft</strong> from shared property line. Planning Commission may reduce to <strong>25 ft</strong> depending on use, topography, or landscaping.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-special">
+            <span class="zone-code">POS</span>
+            <span class="zone-name">Parks &amp; Open Space</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>Minimum</th></tr></thead>
+              <tbody>
+                <tr><td>Front / Side / Rear</td><td><span class="badge-val none">None</span></td></tr>
+                <tr><td>Height max</td><td><span class="badge-val none">None specified</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /Commercial -->
+
+    <!-- INDUSTRIAL -->
+    <div class="section-group">
+      <div class="section-title">Industrial Districts</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-industrial">
+            <span class="zone-code">I-1 / I-2</span>
+            <span class="zone-name">Industrial Districts</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Yard / Standard</th><th>I-1</th><th>I-2</th></tr></thead>
+              <tbody>
+                <tr><td>Front</td><td><span class="badge-val">15 ft</span></td><td><span class="badge-val">15 ft</span></td></tr>
+                <tr><td>Side</td><td><span class="badge-val none">0 ft</span></td><td><span class="badge-val">5 ft</span> / <span class="badge-val large">10 ft</span> (if abutting residential)</td></tr>
+                <tr><td>Rear</td><td><span class="badge-val">10 ft</span>*</td><td><span class="badge-val">10 ft</span> / <span class="badge-val large">25 ft</span> (if abutting residential)</td></tr>
+                <tr><td>Height max</td><td colspan="2"><span class="badge-val special">65 ft</span> both districts</td></tr>
+                <tr><td>Height stepback (near residential)</td><td colspan="2">Any portion above <strong>38 ft</strong> abutting residential: step back <strong>1 horizontal ft</strong> per 2 ft of height above 38 ft</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">*<strong>I-1 rear abutting residential:</strong> Increases to 25 ft or 20% of lot depth (whichever is less).</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BCD SUBDISTRICTS -->
+    <div class="section-group">
+      <div class="section-title">Business-Capitol District (BCD) — Townscape Subdistricts</div>
+
+      <div class="callout">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-text">The BCD contains multiple townscape subdistricts, each with distinct setback requirements. Corner lot provisions in §14-3.5D do <strong>not</strong> apply within the BCD. The baseline floor area ratio for the entire BCD is 2.0:1 (2.5:1 in Plaza/San Francisco, Alameda, Redevelopment, and Loretto subdistricts).</div>
+      </div>
+
+      <div class="wide-table-wrap">
+        <table class="wide-table">
+          <thead>
+            <tr>
+              <th>Subdistrict</th>
+              <th>Front / Street</th>
+              <th>Side</th>
+              <th>Rear</th>
+              <th>Max Height</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="zone-chip">Alameda St</span></td>
+              <td>None</td>
+              <td>—</td>
+              <td>—</td>
+              <td>56 ft (1 ft stepback per 2 ft above 36 ft)</td>
+              <td>Lot coverage 67% in bounded block; open space req. for Alameda frontage</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Barrio de Analco</span></td>
+              <td>East: no restriction<br>West: max 7 ft from property line</td>
+              <td>—</td>
+              <td>—</td>
+              <td>East: 18 ft&nbsp; West: 24 ft</td>
+              <td>West portion buildings built close to street edge; 67% lot coverage</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Cerrillos Road</span></td>
+              <td>15 ft min on Cerrillos</td>
+              <td>—</td>
+              <td>—</td>
+              <td>45 ft (1 ft stepback per 2 ft above 27 ft; min 10 ft horizontal)</td>
+              <td>Lots abutting residential → residential district setback applies along common property line</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Don Gaspar</span></td>
+              <td>10 ft</td>
+              <td>5 ft</td>
+              <td>15 ft</td>
+              <td>24 ft</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">East Marcy / East Palace</span></td>
+              <td>10 ft (or avg existing front yard depth on block)</td>
+              <td>5 ft</td>
+              <td>10 ft</td>
+              <td>27 ft</td>
+              <td>See §14-3.3C.9 for specific block-face exceptions on Marcy St and Palace Ave</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Loretto</span></td>
+              <td>None</td>
+              <td>—</td>
+              <td>—</td>
+              <td>65 ft above center-of-site grade (1 ft setback per 2 ft above 36 ft from street ROW line)</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Marcy</span></td>
+              <td>None (avg existing front yard on certain blocks)</td>
+              <td>—</td>
+              <td>—</td>
+              <td>Not specified (1 ft stepback per 1 ft above 24 ft; min 10 ft horizontal)</td>
+              <td>Parking prohibited in front yard</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">McKenzie St</span></td>
+              <td>10 ft</td>
+              <td>5 ft</td>
+              <td>15 ft</td>
+              <td>24 ft</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Old Santa Fe Trail</span></td>
+              <td>10 ft</td>
+              <td>—</td>
+              <td>—</td>
+              <td>24 ft</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Plaza / San Francisco</span></td>
+              <td>None (buildings on San Francisco St built to street property line)</td>
+              <td>—</td>
+              <td>—</td>
+              <td>36 ft</td>
+              <td>Buildings set back must have solid wall at property line unless 80%+ paved for public pedestrians</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Rosario Blvd / NW Paseo de Peralta</span></td>
+              <td>20 ft min from sidewalk (north side of Paseo de Peralta)</td>
+              <td>—</td>
+              <td>—</td>
+              <td>36 ft</td>
+              <td>Residential district setback applies along common property line; 67% lot coverage</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Sandoval / Montezuma</span></td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>36 ft</td>
+              <td>Residential district setback applies along common property line; 67% lot coverage</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">State Capitol</span></td>
+              <td>Min = building height</td>
+              <td>5 ft min</td>
+              <td>—</td>
+              <td>48 ft</td>
+              <td>50% lot coverage. No walls allowed (except retaining, existing parking, delivery/trash areas)</td>
+            </tr>
+            <tr>
+              <td><span class="zone-chip">Westside</span></td>
+              <td>10 ft</td>
+              <td>5 ft</td>
+              <td>15 ft</td>
+              <td>24 ft</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- OVERLAY / SPECIAL -->
+    <div class="section-group">
+      <div class="section-title">Overlay Districts &amp; Special Setback Rules</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">CRHC</span>
+            <span class="zone-name">Cerrillos Road Highway Corridor</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Zone / Standard</th><th>Setback from Cerrillos</th><th>Min. Lot Depth</th></tr></thead>
+              <tbody>
+                <tr><td>Zone 1 (0–75 ft)</td><td><span class="badge-val">15 ft</span></td><td>75 ft</td></tr>
+                <tr><td>Zone 2 (75–125 ft)</td><td><span class="badge-val">25 ft</span></td><td>125 ft</td></tr>
+                <tr><td>Zone 3 (125–175 ft)</td><td><span class="badge-val">35 ft</span></td><td>175 ft</td></tr>
+                <tr><td>Zone 4 (175–225 ft)</td><td><span class="badge-val large">45 ft</span></td><td>225 ft</td></tr>
+                <tr><td>Height max</td><td colspan="2"><span class="badge-val special">45 ft</span> — and shall not exceed the distance the building is set back from the Cerrillos Road ROW property line</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Setback rule:</strong> As indicated above, or 20% of the lot's depth — <em>whichever is less.</em></p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">WSFRC</span>
+            <span class="zone-name">West Santa Fe River Corridor</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>From</th><th>Setback</th></tr></thead>
+              <tbody>
+                <tr><td>Santa Fe River</td><td>Min <span class="badge-val">15 ft</span> from most restrictive of: River Greenway Boundary; 100-yr FEMA Floodplain; or City arroyo/stream code §14-8.2E.5</td></tr>
+                <tr><td>Agua Fria St</td><td><span class="badge-val">30 ft</span> or 20% of lot depth (whichever is less) — for 2+ lots or 2+ housing units</td></tr>
+                <tr><td>West Alameda St</td><td><span class="badge-val large">50 ft</span> from property line — for 2+ lots or 2+ housing units</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">GARAGE</span>
+            <span class="zone-name">Street Setback — Garage / Carport</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Type</th><th>Setback from Street Property Line</th></tr></thead>
+              <tbody>
+                <tr><td>Enclosed garage (3 sides) facing street</td><td><span class="badge-val large">20 ft</span></td></tr>
+                <tr><td>Open carport (3+ sides open, facing street)</td><td><span class="badge-val">7 ft</span> min — subject to conditions</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">Open carport allowance requires: 7 ft+ from street property line; fully open on ≥3 sides; materials compatible with dwelling; use limited to registered passenger vehicles/motorcycles; no material storage. Applies to all streets; <strong>does not apply to alleys.</strong></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GENERAL SETBACK RULES -->
+    <div class="section-group">
+      <div class="section-title">General Setback Provisions &amp; Exceptions (§14-3.5D)</div>
+
+      <div class="callout info">
+        <span class="callout-icon">📌</span>
+        <div class="callout-text">These provisions apply citywide across all zoning districts unless a specific district standard states otherwise. Source: §14-3.5D, City of Santa Fe LDC.</div>
+      </div>
+
+      <div class="exceptions-box">
+        <h3>Structures Exempt from Setback Requirements</h3>
+        <ul class="exceptions-list">
+          <li><span class="ex-num">1</span><span>Walls and fences</span></li>
+          <li><span class="ex-num">2</span><span>Decks, planters, driveways, walkways, stairways, uncovered porches, and similar structures less than <strong>30 inches above grade</strong></span></li>
+          <li><span class="ex-num">3</span><span>Swimming pools and other water features</span></li>
+          <li><span class="ex-num">4</span><span>Above-ground and underground public/private utility facilities (as provided under §14-5.3I.2)</span></li>
+          <li><span class="ex-num">5</span><span>Above-ground transformers, equipment enclosures, and vaults of utilities when located and screened per approved plat, development plan, or Director approval</span></li>
+          <li><span class="ex-num">6</span><span>Underground pipes, wires, and conduits providing utility service to the property</span></li>
+          <li><span class="ex-num">7</span><span>Above-ground wires (service drops) connecting structures to existing overhead utility distribution</span></li>
+          <li><span class="ex-num">8</span><span>Eaves or other roof projections — may extend into required setbacks up to <strong>2 feet</strong></span></li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 14px;" class="exceptions-box">
+        <h3>Additional General Rules</h3>
+        <ul class="exceptions-list">
+          <li><span class="ex-num">★</span><span><strong>Existing front setback averaging:</strong> Where existing development does not comply with front setback requirements, new development may reduce the front setback to match the <strong>average existing front setback of adjacent properties within 150 feet.</strong></span></li>
+          <li><span class="ex-num">★</span><span><strong>Corner lots:</strong> One setback must comply with the zoning district's front setback requirement; all other street setbacks must be no less than <strong>7 ft</strong>. (Does not apply in BCD.)</span></li>
+          <li><span class="ex-num">★</span><span><strong>Side/rear setback reductions:</strong> Required side and/or rear setbacks may be reduced with written concurrence of adjoining property owners (recorded agreement, plat, or declaration). The reduction must be offset by a corresponding increase on the adjoining lot. Subject to approval by Planning and Land Use Director per Article 7-1.</span></li>
+          <li><span class="ex-num">★</span><span><strong>Nonconforming lots:</strong> Dimensions of required setbacks, along with all other requirements not involving lot area or density, shall still conform to district regulations (§14-1.13D).</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /panel-city -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SANTA FE COUNTY
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="panel-county" class="tab-panel">
+
+    <div class="intro-banner">
+      <h2>Santa Fe County — Setback &amp; Height Standards</h2>
+      <p>Setbacks are the unobstructed, unoccupied open area between the furthermost projection of a structure and the property line. Height maximums are per district dimensional standards tables (Ch. 8). Source: Santa Fe County Sustainable Land Development Code (SLDC), December 2016, §7.3.3 and Ch. 8.</p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">⛰️</span>
+      <div class="callout-text"><strong>Terrain overrides height maximums.</strong> On slopes ≥15%, ridge tops, and at elevations ≥7,400 ft, district height limits are superseded by lower terrain-specific caps (as low as 14 ft on ridgelines). See the <strong>SF County Terrain Management</strong> tab for the complete rules.</div>
+    </div>
+
+    <!-- MASTER SETBACK TABLE -->
+    <div class="section-group">
+      <div class="section-title">Setback Table 7-A — All Zoning Districts</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-text"><strong>Road setbacks shown on plats</strong> are the minimums — an applicant may elect to create greater setbacks. <strong>The setback standards in Table 7-A do not apply to fences or walls.</strong></div>
+      </div>
+
+      <div class="wide-table-wrap">
+        <table class="wide-table">
+          <thead>
+            <tr>
+              <th>Zoning District</th>
+              <th>Front Min (ft)</th>
+              <th>Front Max (ft)</th>
+              <th>Side Min (ft)</th>
+              <th>Rear Min (ft)</th>
+              <th>Height Max (ft)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="zone-chip">A/R</span> Agriculture / Ranching</td><td>25</td><td>n/a</td><td>50</td><td>50</td><td>36 (barn/silo: 50)</td></tr>
+            <tr><td><span class="zone-chip">RUR</span> Rural</td><td>25</td><td>n/a</td><td>25</td><td>25</td><td>36 (barn/silo: 50)</td></tr>
+            <tr><td><span class="zone-chip">RUR-F</span> Rural Fringe</td><td>25</td><td>n/a</td><td>25</td><td>25</td><td>36 (barn/silo: 50)</td></tr>
+            <tr><td><span class="zone-chip">RUR-R</span> Rural Residential</td><td>20</td><td>n/a</td><td>25</td><td>25</td><td>24</td></tr>
+            <tr><td><span class="zone-chip">RES-F</span> Residential Fringe</td><td>10</td><td>n/a</td><td>25</td><td>25</td><td>24</td></tr>
+            <tr><td><span class="zone-chip">RES-E</span> Residential Estate</td><td>10</td><td>n/a</td><td>25</td><td>25</td><td>24</td></tr>
+            <tr><td><span class="zone-chip">RES-C</span> Residential Community</td><td>5</td><td>n/a</td><td>5</td><td>5</td><td>24</td></tr>
+            <tr><td><span class="zone-chip">TC</span> Traditional Community</td><td>5</td><td>n/a</td><td>5</td><td>5</td><td>24</td></tr>
+            <tr><td><span class="zone-chip">CG</span> Commercial General</td><td>5</td><td>25</td><td>0</td><td>30</td><td>40 base / 48 with TDRs</td></tr>
+            <tr><td><span class="zone-chip">CN</span> Commercial Neighborhood</td><td>5</td><td>25</td><td>0</td><td>30</td><td>24</td></tr>
+            <tr><td><span class="zone-chip">I</span> Industrial General</td><td>20</td><td>n/a</td><td>30</td><td>30</td><td>36 base / 50 with TDRs</td></tr>
+            <tr><td><span class="zone-chip">IL</span> Industrial Light</td><td>20</td><td>n/a</td><td>30</td><td>30</td><td>27 base / 40 with TDRs</td></tr>
+            <tr><td><span class="zone-chip">MU</span> Mixed Use</td><td>0</td><td>n/a</td><td>0 *</td><td>5</td><td>27 base / 48 with TDRs</td></tr>
+            <tr><td><span class="zone-chip">PI</span> Public / Institutional</td><td>5</td><td>n/a</td><td>5</td><td>10</td><td>48</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-text"><strong>MU Mixed Use exception (*):</strong> No interior side setbacks are required in the MU district, <em>except</em> when residential uses abut non-residential uses — in which case the minimum side setback shall be <strong>25 ft</strong>. If a commercial use in an MU district abuts a residential zone adjacent to the MU district, the setback shall equal that of the adjacent residential zone.</div>
+      </div>
+    </div>
+
+    <!-- SPECIAL SETBACKS -->
+    <div class="section-group">
+      <div class="section-title">Special &amp; Resource-Based Setbacks</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.3.3.3</span>
+            <span class="zone-name">Highway Setbacks</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Road Type</th><th>Min. Setback from Pavement</th></tr></thead>
+              <tbody>
+                <tr><td>Federal Highway</td><td><span class="badge-val xlarge">150 ft</span></td></tr>
+                <tr><td>Highway / Major Arterial / Railroad</td><td><span class="badge-val large">100 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">Unless established through a right-of-way. May be reduced via landscaping — see §7.3.3.9 reduction provisions below.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.3.3.9</span>
+            <span class="zone-name">Highway Setback Reductions (Landscaping)</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Buffer Type</th><th>Reduced Setback</th></tr></thead>
+              <tbody>
+                <tr><td>Trees ≥20 ft at maturity, 25 ft wide, 1 tree/350 sq ft (≥⅓ evergreens)</td><td><span class="badge-val large">75 ft</span></td></tr>
+                <tr><td>Trees ≥30 ft maturity + shrubs ≥12 ft maturity, 25 ft wide, 1 tree/300 sq ft + 1 shrub/350 sq ft</td><td><span class="badge-val large">50 ft</span></td></tr>
+                <tr><td>Trees + solid masonry wall, or trees + 3–4 ft earth berm</td><td>Further reduction possible — Admin discretion based on site variables</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-industrial">
+            <span class="zone-code">§7.3.3.5</span>
+            <span class="zone-name">Commercial / Industrial to Residential</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Condition</th><th>Setback</th></tr></thead>
+              <tbody>
+                <tr><td>Any structure/use in Commercial or Industrial district adjacent to a Residential district</td><td><span class="badge-val xlarge">100 ft</span> from the property line</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text"><strong>Note:</strong> "Commercial district" for purposes of this section does <strong>not</strong> include the MU zone.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">§7.3.3.6</span>
+            <span class="zone-name">Acequia / Ditch Setback</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Feature</th><th>Setback</th></tr></thead>
+              <tbody>
+                <tr><td>Centerline of any acequia, ditch, lateral, or drain under authority of an acequia association, organization, or irrigation district</td><td><span class="badge-val">15 ft</span> min</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">Applies to all structures <em>excluding walls and fences</em>. Requirement may be waived if easement is otherwise prescribed by a recognized acequia association or irrigation district. Applicants must provide notice to impacted acequia associations if development is within 25 ft of an acequia.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">§7.17.5</span>
+            <span class="zone-name">Arroyo / Floodplain Erosion Setbacks</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Feature</th><th>Min. Setback</th></tr></thead>
+              <tbody>
+                <tr><td>Natural edge of arroyos with flows &gt;25 cfs (100-yr storm)</td><td><span class="badge-val large">25 ft</span></td></tr>
+                <tr><td>FEMA-designated 100-year Floodplain</td><td><span class="badge-val xlarge">75 ft</span> (min 25 ft if bank stabilization engineered)</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">No fill shall be placed in natural drainage channels. FEMA setback may be reduced below 75 ft if bank stabilization or stream-bed/bank stability is designed by a licensed professional engineer — but <strong>in no case reduced below 25 ft.</strong></p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">§7.17.10.6</span>
+            <span class="zone-name">Ridgeline / Ridgetop Setback</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Feature</th><th>Min. Setback</th></tr></thead>
+              <tbody>
+                <tr><td>Ridge, ridgetop, ridgeline, or shoulder</td><td><span class="badge-val xlarge">100 ft</span></td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">The 100 ft default may be reduced <strong>only</strong> if a field inspection demonstrates that structures within the default minimum would be non-visible or less visible from applicable public rights-of-way than structures built outside the default minimum setback.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EXCEPTIONS -->
+    <div class="section-group">
+      <div class="section-title">Exceptions to Setback Requirements (§7.3.3.8)</div>
+
+      <div class="callout info">
+        <span class="callout-icon">📌</span>
+        <div class="callout-text">These exceptions apply <strong>provided that a 10-foot distance between structures is maintained.</strong></div>
+      </div>
+
+      <div class="exceptions-box">
+        <h3>Allowed within Required Setbacks</h3>
+        <ul class="exceptions-list">
+          <li><span class="ex-num">1</span><span>Fences and walls</span></li>
+          <li><span class="ex-num">2</span><span>Chimneys, flues, or smokestacks — may extend into setbacks but may not occupy more than <strong>20 sq ft</strong> of the setback</span></li>
+          <li><span class="ex-num">3</span><span>Sills and ornamental features — may project up to <strong>2 ft</strong> into any setback</span></li>
+          <li><span class="ex-num">4</span><span>Fire escapes — may project up to <strong>5 ft</strong> into any required setback</span></li>
+          <li><span class="ex-num">5</span><span>Cornices and eaves — may extend up to <strong>5 ft</strong> into required setback, but shall remain at least <strong>2 ft</strong> from the property line</span></li>
+          <li><span class="ex-num">6</span><span>Marquee signs and awnings — may extend into setback</span></li>
+          <li><span class="ex-num">7</span><span>Security gates and guard stations — may be located within required setback</span></li>
+          <li><span class="ex-num">8</span><span>At-grade patios, decks, uncovered terraces, uncovered steps, and handicapped access ramps — may extend into any required setback</span></li>
+          <li><span class="ex-num">9</span><span>Mechanical equipment for residences — may extend into required setback but shall remain at least <strong>5 ft</strong> from the property line</span></li>
+          <li><span class="ex-num">10</span><span>Bay windows, entrances, balconies, portals, and similar features — may extend up to <strong>2 ft</strong> into required setbacks, but shall remain at least <strong>5 ft</strong> from the property line</span></li>
+          <li><span class="ex-num">11</span><span>Pedestrian, bike, or equestrian pathways or trails; leach fields; retention ponding</span></li>
+          <li><span class="ex-num">12</span><span>Garages with alley access — may extend into the rear setback</span></li>
+          <li><span class="ex-num">13</span><span>An addition to an existing structure legally located within a setback may be built within the setback, provided the addition will not be built <em>closer</em> than the existing structure is to the property line</span></li>
+          <li><span class="ex-num">14</span><span>Where setback requirements prohibit development of a legal lot of record, the Administrator may allow a reduction of the setback(s) to a <strong>minimum of 5 ft</strong></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FIRE RESISTANT MATERIALS NOTE -->
+    <div class="section-group">
+      <div class="section-title">Other County Setback Notes</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-special">
+            <span class="zone-code">§7.3.3.4</span>
+            <span class="zone-name">Fire-Resistant Materials</span>
+          </div>
+          <div class="card-body">
+            <p style="font-size:0.82rem; line-height:1.6;">A <strong>reduced side yard setback</strong> may be permitted where fire-resistant materials are used consistent with the New Mexico Fire Code and the Santa Fe County Fire Code. The road, side, and rear setback standards shall still apply around the perimeter of an <strong>attached housing development.</strong></p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-special">
+            <span class="zone-code">§7.3.3.2</span>
+            <span class="zone-name">Road Setbacks on Plats</span>
+          </div>
+          <div class="card-body">
+            <p style="font-size:0.82rem; line-height:1.6;">Front and side setbacks adjacent to roads shall be <strong>shown on all plats</strong> as required by the SLDC. The setbacks provided on plats are minimum setbacks — an applicant may elect to create greater setbacks. A setback shown on a recorded plat that is greater than the SLDC minimum governs.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">§7.17.4</span>
+            <span class="zone-name">No-Build Areas</span>
+          </div>
+          <div class="card-body">
+            <p style="font-size:0.82rem; line-height:1.6;">No-build areas shall be identified on any plat and site development plan. These include: rock outcroppings, wetlands, riparian areas, arroyos and natural drainage ways; setbacks from ridgetops and natural streams; areas with natural slopes ≥30%; and access or other easements in which development is prohibited.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /panel-county -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SF COUNTY TERRAIN MANAGEMENT
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="panel-terrain" class="tab-panel">
+
+    <div class="intro-banner">
+      <h2>SF County Terrain Management — §7.17</h2>
+      <p>Section 7.17 of the SLDC applies to <strong>all development countywide</strong> and imposes restrictions on grading, slopes, ridgelines, drainage, and high-elevation sites. These rules operate on top of (and often override) the base district standards. Source: Santa Fe County SLDC, December 2016, §7.17.</p>
+    </div>
+
+    <!-- PURPOSES -->
+    <div class="section-group">
+      <div class="section-title">§7.17.1 — Purposes &amp; Applicability</div>
+      <div class="exceptions-box">
+        <h3>What Terrain Management Is Designed to Do</h3>
+        <ul class="exceptions-list">
+          <li><span class="ex-num">1</span><span>Protect water quality and the natural character of the land</span></li>
+          <li><span class="ex-num">2</span><span>Minimize soil and slope instability, erosion, sedimentation, and stormwater runoff</span></li>
+          <li><span class="ex-num">3</span><span>Protect and retain rugged and steep terrain, natural landmarks, and prominent natural features as open space</span></li>
+          <li><span class="ex-num">4</span><span>Adapt development to existing natural topography, soils, vegetation, geology, and hydrology — by minimizing cuts/fills, blending graded areas with natural terrain, and careful phasing of revegetation</span></li>
+          <li><span class="ex-num">5</span><span>Preserve natural drainage patterns and protect the public from flooding, erosion, and landslides</span></li>
+          <li><span class="ex-num">6</span><span>Encourage minimum disturbance to natural areas by locating roads, driveways, and utilities to minimize scarring</span></li>
+        </ul>
+        <p class="note-text"><strong>Applicability:</strong> All development shall comply with the standards of §7.17 without exception.</p>
+      </div>
+    </div>
+
+    <!-- BUILDABLE AREA & NO-BUILD -->
+    <div class="section-group">
+      <div class="section-title">§7.17.3–7.17.4 — Buildable Area &amp; No-Build Areas</div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">§7.17.3</span>
+            <span class="zone-name">Buildable Area Requirements</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
+              <tbody>
+                <tr><td>Designation</td><td>A buildable area must be identified on all plats and site development plans</td></tr>
+                <tr><td>Minimum size</td><td><span class="badge-val special">2,000 sq ft</span> including all required working areas (does not apply to high-density PD or MU)</td></tr>
+                <tr><td>Development limit</td><td>Development shall occur only within the designated buildable area</td></tr>
+                <tr><td>Alternative</td><td>Administrator may approve alternative buildable area on proof of SLDC compliance</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-industrial">
+            <span class="zone-code">§7.17.4</span>
+            <span class="zone-name">No-Build Areas (Always Prohibited)</span>
+          </div>
+          <div class="card-body">
+            <ul class="exceptions-list" style="margin-top:0;">
+              <li><span class="ex-num">✗</span><span>Rock outcroppings, wetlands, riparian areas, arroyos, and natural drainage ways</span></li>
+              <li><span class="ex-num">✗</span><span>Setback areas from ridge tops, ridges, and natural streams and drainage ways</span></li>
+              <li><span class="ex-num">✗</span><span>Areas with natural slopes of <strong>30% or greater</strong></span></li>
+              <li><span class="ex-num">✗</span><span>Access easements and other easements in which development is prohibited</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GRADING -->
+    <div class="section-group">
+      <div class="section-title">§7.17.6 — Grading, Clearing &amp; Grubbing</div>
+      <div class="exceptions-box">
+        <h3>Rules for All Grading Activity</h3>
+        <ul class="exceptions-list">
+          <li><span class="ex-num">1</span><span>A <strong>development permit</strong> must be obtained before any grading, clearing, or grubbing. (Not required for routine driveway maintenance; required for major changes or capital improvements.)</span></li>
+          <li><span class="ex-num">2</span><span>Grading and clearing of native vegetation is limited to approved buildable areas, roads/driveways, drainage facilities, wastewater systems, and utility corridors</span></li>
+          <li><span class="ex-num">3</span><span>Topsoil from graded areas shall be stockpiled for use in revegetation</span></li>
+          <li><span class="ex-num">4</span><span>Limits of disturbance (LOD) fencing or construction barriers must be installed <em>before</em> any grading begins</span></li>
+          <li><span class="ex-num">5</span><span>No grading permitted within <strong>1 ft of a property line</strong> (except for roads, driveways, and utilities)</span></li>
+          <li><span class="ex-num">6</span><span>Temporary fencing shall be installed to protect natural vegetation outside disturbance area</span></li>
+          <li><span class="ex-num">7</span><span>Retaining walls shall not exceed <strong>10 ft in height</strong></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEEP SLOPES -->
+    <div class="section-group">
+      <div class="section-title">§7.17.9 — Steep Slopes, Ridge Tops, Ridgelines &amp; Shoulders</div>
+
+      <div class="callout">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-text"><strong>Applies to:</strong> Any structure on a slope exceeding <strong>15%</strong>, any area where slope exceeds <strong>30%</strong>, and any ridge, ridge top, ridgeline, or shoulder. Where a ridgetop is more than 500 ft from shoulder to shoulder, standards apply within 200 ft of the shoulder.</div>
+      </div>
+
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-industrial">
+            <span class="zone-code">§7.17.9.2</span>
+            <span class="zone-name">Slope Development Standards</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Condition</th><th>Rule</th></tr></thead>
+              <tbody>
+                <tr><td>Ridge top / ridgeline / shoulder</td><td>No structure allowed <em>unless no other buildable area exists</em> on the property. Only <strong>single-story</strong> structures permitted.</td></tr>
+                <tr><td>Buildable area on ridge/shoulder</td><td>Must be set back <span class="badge-val special">25 ft</span> from the shoulder</td></tr>
+                <tr><td>Slope ≥ 30%</td><td>No structure may be constructed. Utilities, drainage, slope retention, and access roads may be placed on ≥30% slopes if disturbance is limited to ≤3 separate areas of ≤1,000 sq ft each.</td></tr>
+                <tr><td>Slope 15–30% (finished floor)</td><td>Finished floor elevation shall not exceed <span class="badge-val special">5 ft</span> above natural grade at any point</td></tr>
+                <tr><td>Slope instability / hazards</td><td>No structure where evidence exists of instability, rock falls, landslides, or other hazards</td></tr>
+                <tr><td>Significant trees on ≥30% slopes</td><td>No significant trees may be removed</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-industrial">
+            <span class="zone-code">§7.17.9.3</span>
+            <span class="zone-name">Height Limits — Slopes &amp; Ridges</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Location</th><th>Max Height</th><th>Additional Rule</th></tr></thead>
+              <tbody>
+                <tr><td>Slope ≥ 15%</td><td><span class="badge-val xlarge">18 ft</span></td><td>Distance from highest point of structure to lowest point at natural/finished cut grade: max <strong>30 ft</strong> (unless ≥15% portion is incidental to the entire site)</td></tr>
+                <tr><td>Ridge / ridgeline / shoulder</td><td><span class="badge-val xlarge">14 ft</span>, 1 story</td><td>Exception: a 1-story <em>pitched roof</em> structure may reach <strong>18 ft</strong> if screened from view from any arterial or major arterial road</td></tr>
+              </tbody>
+            </table>
+            <p class="note-text">These limits supersede base district height maximums whenever the slope or ridgeline triggers apply.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-environ">
+            <span class="zone-code">§7.17.9.4</span>
+            <span class="zone-name">Architectural Standards — Steep Slopes</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
+              <tbody>
+                <tr><td>Site design on slopes &gt;15%</td><td>Structure must follow contours to minimize cuts and fills; must solidly meet the ground plane</td></tr>
+                <tr><td>Pier foundations</td><td>Must be enclosed so exterior walls appear to meet the ground; shall not exceed <strong>5 ft</strong> above natural grade</td></tr>
+                <tr><td>Colors &amp; materials (visible from roads)</td><td>Muted, non-reflective/non-glossy; Light Reflective Value (LRV) &lt; 40%</td></tr>
+                <tr><td>Landscaping</td><td>Required for cut/fill slopes &gt;4 ft; min 50% of visible cut/fill slope and building facade must be landscaped</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 7400 FT -->
+    <div class="section-group">
+      <div class="section-title">§7.17.10 — Development at or above 7,400 Feet Elevation</div>
+
+      <div class="callout">
+        <span class="callout-icon">🏔️</span>
+        <div class="callout-text"><strong>All general terrain standards (§7.17.1–7.17.9) continue to apply at ≥7,400 ft</strong>, with the following additional requirements layered on top. These are among the most restrictive rules in the SLDC.</div>
+      </div>
+
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.17.10.1</span>
+            <span class="zone-name">Buildable Area Analysis</span>
+          </div>
+          <div class="card-body">
+            <p style="font-size:0.82rem;line-height:1.6;margin-bottom:10px;color:var(--text);">Every lot or parcel at ≥7,400 ft must be formally analyzed. A buildable area must satisfy <em>all three</em> criteria:</p>
+            <table class="setback-table">
+              <thead><tr><th>#</th><th>Criterion</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Average slope of the buildable area is <strong>&lt; 20%</strong> — only 50% of any structure may sit on slope between 20–30%</td></tr>
+                <tr><td>2</td><td>Soils within the area are acceptable for construction of foundations</td></tr>
+                <tr><td>3</td><td>Buildable area must be closest to the nearest pre-existing public or private road or ROW, unless that would make the structure visible from a major arterial or conflict with terrain standards</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.17.10.2</span>
+            <span class="zone-name">Visual Impact Analysis (Required)</span>
+          </div>
+          <div class="card-body">
+            <p style="font-size:0.82rem;line-height:1.6;margin-bottom:10px;color:var(--text);">Every proposed development site at ≥7,400 ft must be evaluated for visibility from a major arterial. The analysis must include:</p>
+            <ul class="exceptions-list" style="margin-top:0;">
+              <li><span class="ex-num">1</span><span>White story poles at every corner and on the pitch of any proposed structure, at the proposed height</span></li>
+              <li><span class="ex-num">2</span><span>Telephoto photographs or computer simulations from the nearest major arterial road with a view of the site</span></li>
+              <li><span class="ex-num">3</span><span>Viewpoints approved by the Administrator before the analysis; Administrator may require additional viewpoints</span></li>
+            </ul>
+            <p class="note-text"><strong>If visible from a major arterial,</strong> applicant must consider: (a) a less visible site; (b) adjusting lot lines or roads; or (c) additional screening, buffering, or setbacks.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.17.10.3</span>
+            <span class="zone-name">Disturbed Area Limitation</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Standard</th><th>Limit</th></tr></thead>
+              <tbody>
+                <tr><td>Total disturbed area per lot</td><td>Max <span class="badge-val xlarge">12,000 sq ft</span></td></tr>
+                <tr><td>Primary driveway disturbance</td><td>Excluded from the 12,000 sq ft calculation</td></tr>
+                <tr><td>Construction staging areas</td><td>Must be fenced prior to construction</td></tr>
+                <tr><td>Revegetation required</td><td>All disturbed area not occupied by permanent improvements (utilities, leach fields, staging areas)</td></tr>
+                <tr><td>Walls &amp; fences</td><td>Count toward disturbed area if impermeable to overland sheet flow or inhibit water infiltration</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.17.10.4</span>
+            <span class="zone-name">Roads &amp; Driveways at ≥7,400 ft</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
+              <tbody>
+                <tr><td>Maximum slope for roads/driveways</td><td>May not be designed or constructed on slopes exceeding <span class="badge-val xlarge">25%</span></td></tr>
+                <tr><td>Exception (Admin approval)</td><td>Allowed on slopes &gt;25% only if: (a) ≤3 isolated disturbance areas of ≤1,000 sq ft each, and (b) applicant demonstrates minimal terrain and visual impact</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.17.10.5</span>
+            <span class="zone-name">Architectural &amp; Appearance Standards</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
+              <tbody>
+                <tr><td>Window &amp; door glazing per façade</td><td>Max <span class="badge-val special">30%</span></td></tr>
+                <tr><td>Glazing under portals ≥8 ft deep</td><td>Max <span class="badge-val special">50%</span> of that façade area</td></tr>
+                <tr><td>Glazing material</td><td>Non-mirrored; LRV &lt; 20%</td></tr>
+                <tr><td>All other surfaces (visible from roads)</td><td>Muted, non-reflective; LRV &lt; 40%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header theme-overlay">
+            <span class="zone-code">§7.17.10.6–7</span>
+            <span class="zone-name">Setbacks &amp; Screening at ≥7,400 ft</span>
+          </div>
+          <div class="card-body">
+            <table class="setback-table">
+              <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
+              <tbody>
+                <tr><td>Setback from ridge / ridgetop / shoulder</td><td><span class="badge-val xlarge">100 ft</span> — reducible only if field inspection proves non-visibility from public ROW</td></tr>
+                <tr><td>Structures &gt;4 ft visible from ROW</td><td>Screened with indigenous shrubs/trees matching on-site species</td></tr>
+                <tr><td>Structure 8–14 ft high</td><td>≥1 indigenous evergreen so ≤50% of structure is exposed from tree top to highest point</td></tr>
+                <tr><td>Structure &gt;14 ft high</td><td>≥1 indigenous evergreen ≥8 ft tall within 15 ft; tree at maturity shall exceed structure height</td></tr>
+                <tr><td>Per linear wall</td><td>≥1 tree ≥6 ft for every <strong>15 linear ft</strong> of horizontal wall, within 15 ft of wall</td></tr>
+                <tr><td>Retaining walls</td><td>Max <strong>5 ft</strong> per individual wall; if more needed, multiple walls set back min <strong>6 ft</strong> face-to-face; setback area grading ≤1% cross slope</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- QUICK REFERENCE TABLE -->
+    <div class="section-group">
+      <div class="section-title">Quick Reference — Height Limits by Terrain Condition</div>
+
+      <div class="callout info">
+        <span class="callout-icon">📋</span>
+        <div class="callout-text">These terrain-based height caps apply <strong>countywide regardless of zoning district</strong>. They override the district maximum wherever the terrain trigger is met.</div>
+      </div>
+
+      <div class="wide-table-wrap">
+        <table class="wide-table">
+          <thead>
+            <tr>
+              <th>Terrain Condition</th>
+              <th>Code §</th>
+              <th>Max Height</th>
+              <th>Key Additional Rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Slope ≥ 30%</td>
+              <td>§7.17.9.2(3)</td>
+              <td><strong>No structures permitted</strong></td>
+              <td>Utilities/drainage/roads only; ≤3 disturbance areas of ≤1,000 sq ft each</td>
+            </tr>
+            <tr>
+              <td>Ridge / ridgeline / shoulder</td>
+              <td>§7.17.9.3(2)</td>
+              <td><strong>14 ft</strong>, 1 story only</td>
+              <td>1-story pitched roof exception: up to 18 ft if screened from arterials; shoulder setback 25 ft</td>
+            </tr>
+            <tr>
+              <td>Slope ≥ 15%</td>
+              <td>§7.17.9.3(1)</td>
+              <td><strong>18 ft</strong></td>
+              <td>Max 30 ft from structure's high point to lowest at natural/finished cut grade</td>
+            </tr>
+            <tr>
+              <td>Slope 15–30% (floor elevation)</td>
+              <td>§7.17.9.2(6)</td>
+              <td>Floor ≤ <strong>5 ft</strong> above natural grade</td>
+              <td>Controls floor elevation, not total height — works alongside the 18 ft cap</td>
+            </tr>
+            <tr>
+              <td>Elevation ≥ 7,400 ft + ridge</td>
+              <td>§7.17.10.6 + §7.17.9.3</td>
+              <td><strong>14–18 ft</strong> (slope rules apply)</td>
+              <td>100 ft setback from ridge/ridgeline also required; visual impact study required</td>
+            </tr>
+            <tr>
+              <td>Elevation ≥ 7,400 ft (general flat/gentle slope)</td>
+              <td>§7.17.10</td>
+              <td>District max — but additional process required</td>
+              <td>Buildable area analysis, story poles, visual impact study, 12,000 sq ft disturbance cap</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /panel-terrain -->
+
+
+</main>
+
+<script>
+  function switchTab(id, btn) {
+    // Deactivate all panels and buttons
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+
+    // Activate selected
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+
+    // Scroll to top of main
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
