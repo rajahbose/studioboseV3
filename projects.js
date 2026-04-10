@@ -20,16 +20,16 @@ const projects = [
     "desc2": "The structural system is a play on the standard Steel Building, with recessed endcaps covered in wood, and insulated metal panels to give it a clean exterior aesthetic and straightforward envelope.",
     "statement": "A building that works as hard as the organization it serves — simple, honest, and built for the community.",
     "imgs": [
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-01.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-02.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-03.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-04.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-05.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-06.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-07.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-08.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-09.jpg",
-      "images/projects/food-to-power-headquarters/food-to-power-headquarters-10.jpg"
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-01.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-02.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-03.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-04.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-05.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-06.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-07.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-08.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-09.avif",
+      "images/projects/food-to-power-headquarters/food-to-power-headquarters-10.avif"
     ]
   },
   {
