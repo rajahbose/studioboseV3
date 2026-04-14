@@ -607,23 +607,23 @@ const projects = [
     "desc2": "Designed in collaboration with Andrew Lyons Design. Estimated completion: Fall 2026. "
   },
   {
-    "id": "commercial-005",
-    "number": "005",
+    "id": "creative-009",
+    "number": "009",
     "title": "Train Station",
-    "subtitle": "Competition-level transit hub design integrating landscape, structure, and movement",
-    "category": "commercial",
+    "subtitle": "A high speed railway station with an integrated ground-level public realm",
+    "category": "creative",
     "year": "2017",
-    "location": "—",
+    "location": "Somewhere, CA",
     "area": "—",
     "client": "—",
-    "status": "Unbuilt",
+    "status": "Speculative",
     "materials": "—",
     "colors": [
       "ph-a",
       "ph-b",
       "ph-c"
     ],
-    "desc1": "",
+    "desc1": "In collaboration with Hamza Basurah, this project was done as an \"Integrated Build Design\" studio during our fifth of the five year program at California College of the Arts. The reality of an underground train terminal (required by the highspeed train proposal), theatre design, structural design, and building energy concepts shaped the outcome of this project entirely.",
     "desc2": "",
     "statement": "",
     "imgs": [
@@ -641,8 +641,8 @@ const projects = [
     ]
   },
   {
-    "id": "commercial-006",
-    "number": "006",
+    "id": "commercial-005",
+    "number": "005",
     "title": "Rocket Ramps",
     "subtitle": "Bespoke mountain bike jumps & features ",
     "category": "small-scale",
