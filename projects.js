@@ -609,6 +609,40 @@ const projects = [
   {
     "id": "commercial-005",
     "number": "005",
+    "title": "Train Station",
+    "subtitle": "Competition-level transit hub design integrating landscape, structure, and movement",
+    "category": "commercial",
+    "year": "2017",
+    "location": "—",
+    "area": "—",
+    "client": "—",
+    "status": "Unbuilt",
+    "materials": "—",
+    "colors": [
+      "ph-a",
+      "ph-b",
+      "ph-c"
+    ],
+    "desc1": "",
+    "desc2": "",
+    "statement": "",
+    "imgs": [
+      "images/projects/train-station/train-station-01.avif",
+      "images/projects/train-station/train-station-02.avif",
+      "images/projects/train-station/train-station-03.avif",
+      "images/projects/train-station/train-station-04.avif",
+      "images/projects/train-station/train-station-05.avif",
+      "images/projects/train-station/train-station-06.avif",
+      "images/projects/train-station/train-station-07.avif",
+      "images/projects/train-station/train-station-08.avif",
+      "images/projects/train-station/train-station-09.avif",
+      "images/projects/train-station/train-station-10.avif",
+      "images/projects/train-station/train-station-11.avif"
+    ]
+  },
+  {
+    "id": "commercial-006",
+    "number": "006",
     "title": "Rocket Ramps",
     "subtitle": "Bespoke mountain bike jumps & features ",
     "category": "small-scale",
