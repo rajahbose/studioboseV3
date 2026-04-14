@@ -101,8 +101,8 @@ const projects = [
     "title": "Coastal Cabins & Kitchen",
     "subtitle": "—",
     "category": "commercial",
-    "year": "2026",
-    "location": "—",
+    "year": "2023",
+    "location": "Jamaica",
     "area": "—",
     "client": "—",
     "status": "—",
@@ -112,7 +112,7 @@ const projects = [
       "ph-b",
       "ph-c"
     ],
-    "desc1": "—",
+    "desc1": "The ultimate \"glamping\" experience, this series of sleeping pods scattered across the Jamaican coast are meant to have a light touch on the earth. Designed to be modular, repeatable, and durable enough to withstand weather and time, the small units offer a sleeping area, bathroom, and expandability for decks, tubs, yards, etc.",
     "desc2": "",
     "imgs": [
       "images/projects/coastal-cabins-kitchen/coastal-cabins-kitchen-11.jpg",
@@ -213,7 +213,7 @@ const projects = [
     ],
     "materials": "Panelized Prefab Steel Stud System",
     "desc1": "This casita is an exercise in completely moldproof and fire-resistant construction, based on an innovative panelized prefab steel stud system.",
-    "desc2": "",
+    "desc2": "The building echoes the natural topography of the site, broken into three different floorplate heights. The roof is formed by a single folded surface geometry of metal. \n\nThe site was originally modeled as a photogrammetry scan from a drone, and the entire project was modeled in BIM, down to the individual stud by the structural team. ",
     "statement": ""
   },
   {
@@ -502,7 +502,7 @@ const projects = [
       "images/projects/topanga-house-model/topanga-house-model-08.jpg"
     ],
     "materials": "",
-    "desc1": "",
+    "desc1": "A highly accurate scale model of a creative house design that actually exists in Topanga, CA. As a student, being able to study, model, and then ultimately visit a singular structure was an amazing experience. ",
     "desc2": ""
   },
   {
@@ -576,7 +576,7 @@ const projects = [
       "images/projects/meadowlark/meadowlark-11.jpg",
       "images/projects/meadowlark/meadowlark-12.jpg"
     ],
-    "desc1": "",
+    "desc1": "The meadowlark residence is defined by the dance of heavy timbers overhead, creating a multi-faceted cathedral ceiling in nearly all of the house. ",
     "desc2": ""
   },
   {
