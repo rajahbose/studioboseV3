@@ -641,6 +641,35 @@ const projects = [
     ]
   },
   {
+    "id": "creative-010",
+    "number": "010",
+    "title": "Highschool Maker Space",
+    "subtitle": "A hands-on fabrication and design studio for high school students",
+    "category": "creative",
+    "year": "—",
+    "location": "—",
+    "area": "—",
+    "client": "—",
+    "status": "—",
+    "type": "—",
+    "concepts": "—",
+    "colors": [
+      "ph-a",
+      "ph-b",
+      "ph-c"
+    ],
+    "imgs": [
+      "images/projects/highschool-maker-space/highschool-maker-space-01.avif",
+      "images/projects/highschool-maker-space/highschool-maker-space-02.avif",
+      "images/projects/highschool-maker-space/highschool-maker-space-03.avif",
+      "images/projects/highschool-maker-space/highschool-maker-space-04.avif",
+      "images/projects/highschool-maker-space/highschool-maker-space-05.avif"
+    ],
+    "materials": "—",
+    "desc1": "",
+    "desc2": ""
+  },
+  {
     "id": "commercial-005",
     "number": "005",
     "title": "Rocket Ramps",
