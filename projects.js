@@ -659,11 +659,11 @@ const projects = [
       "ph-c"
     ],
     "imgs": [
+      "images/projects/highschool-maker-space/highschool-maker-space-05.avif",
       "images/projects/highschool-maker-space/highschool-maker-space-01.avif",
       "images/projects/highschool-maker-space/highschool-maker-space-02.avif",
       "images/projects/highschool-maker-space/highschool-maker-space-03.avif",
-      "images/projects/highschool-maker-space/highschool-maker-space-04.avif",
-      "images/projects/highschool-maker-space/highschool-maker-space-05.avif"
+      "images/projects/highschool-maker-space/highschool-maker-space-04.avif"
     ],
     "materials": "—",
     "desc1": "",
